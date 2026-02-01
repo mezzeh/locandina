@@ -1,0 +1,30 @@
+Un centro di controllo aereo deve gestire una flotta di droni che sorvolano l'area circostante: dato un punto nello spazio, il centro di controllo deve stabilire quale sia il drone più vicino ad esso.
+
+
+
+Ogni punto nello spazio viene espresso mediante un oggetto con tre chiavi x, y, e z, corrispondenti alle tre coordinate nello spazio. I valori di tali chiavi sono numeri, corrispondenti al valore in metri della coordinata corrispondente (Esempio: 
+).
+
+
+
+Scrivere una funzione in JavaScript dronePiuVicino(a,p,epsilon) che prende in input
+
+1) un array non-vuoto a di punti nello spazio, corrispondenti alle posizioni dei droni,
+
+2) un punto p nello spazio,
+
+3) una soglia di precisione epsilon,
+
+e restituisce l'elemento di a tale per cui la distanza Euclidea dal punto p è minima, dove due valori di distanza sono considerati uguali se la loro differenza è minore della soglia di tolleranza epsilon.
+
+Più precisamente, la funzione deve considerare uguali i valori di distanza entro la soglia di tolleranza epsilon: due valori di distanze Euclidee 
+ sono considerati uguali se 
+. Ad esempio, per epsilon = 0.5, le due distanze 3.4 e 3.8 sono considerate uguali.
+
+Il valore assoluto di un numero si può calcolare mediante la funzione JavaScript Math.abs().
+
+
+
+In caso di parità di distanza Euclidea minima (sempre entro la tolleranza epsilon), la funzione deve restituire il primo punto di a (indice minimo nell'array) che raggiunge il minimo.
+
+

@@ -1,0 +1,228 @@
+
+```ts
+/*
+ * Funzione sommaRepdigit(A, b)
+ *
+ * Calcola la somma di tutti i numeri in un array la cui rappresentazione in una
+ * data base è un repdigit (cioè è composta da una sola cifra ripetuta).
+ *
+ * Un repdigit è un numero la cui rappresentazione in una certa base è composta
+ * da una sola cifra ripetuta. Ad esempio:
+ * - 222 in base 3 (tutte le cifre sono 2)
+ * - 1111 in base 2 (tutte le cifre sono 1)
+ *
+ * Parametri:
+ * - A: array di numeri naturali da analizzare
+ * - b: base numerica (deve essere b ∈ ℕ, b > 1)
+ *
+ * Restituisce:
+ * La somma di tutti i numeri in A che sono repdigit in base b
+ *
+ * Esempi:
+ *
+ * sommaRepdigit([26, 40, 15, 13], 3) → 79
+ * 26 in base 3 è 222 (repdigit), 40 in base 3 è 1111 (repdigit),
+ * 15 in base 3 è 120 (non repdigit), 13 in base 3 è 111 (repdigit).
+ * Somma: 26 + 40 + 13 = 79
+ *
+ * sommaRepdigit([7, 10, 15], 2) → 22
+ * sommaRepdigit([5, 12, 18], 5) → 30
+ *
+ * Nota:
+ * - Ogni numero di una singola cifra (0-9) è per definizione un repdigit.
+ * - Non è consentito l'uso di metodi predefiniti per la conversione di base
+ *   (come toString(b) o parseInt). La conversione deve essere implementata
+ *   tramite l'algoritmo delle divisioni successive.
+ */
+
+function sommaRepdigit(A, b) {
+  let somma = 0;
+
+  for (let numero of A) {
+    let primaCifra = numero % b;
+    let residuo = numero;
+
+    while (residuo > 0) {
+      if (residuo % b !== primaCifra) break;
+
+      residuo = Math.floor(residuo / b);
+    }
+
+    if (residuo === 0) somma += numero;
+  }
+
+  return somma;
+}
+
+/*
+ * Funzione comparatoreTask(criterio, ascendente)
+ *
+ * Restituisce una funzione di comparazione utilizzabile con sort() per ordinare
+ * un array di oggetti "task" secondo un criterio specificato.
+ *
+ * Struttura di un oggetto task:
+ * - titolo: stringa che descrive il task
+ * - id: identificatore univoco del task (stringa)
+ * - priorita: numero intero da 1 a 5, dove 5 è la massima priorità
+ * - dipendenze: array di stringhe che rappresentano gli id di altri task
+ *
+ * Parametri:
+ * - criterio: stringa che specifica il criterio di ordinamento. Valori possibili:
+ *   · "dipendenze": ordina per numero di dipendenze
+ *   · "priorita": ordina per priorità
+ *   · "id": ordina alfabeticamente per id (default se non specificato)
+ *
+ * - ascendente: booleano che determina la direzione dell'ordinamento
+ *   · true: ordine ascendente/crescente (default se non specificato)
+ *   · false: ordine discendente/decrescente
+ *
+ * Restituisce:
+ * Una funzione di comparazione compatibile con Array.sort()
+ *
+ * Comportamento di default:
+ * - Se criterio non è specificato, si applica "id"
+ * - Se ascendente non è specificato, si assume true
+ */
+
+function comparatoreTask(criterio = "id", ascendente = true) {
+  return function (task1, task2) {
+    let risultato = 0;
+
+    switch (criterio) {
+      case "dipendenze":
+        risultato = task1.dipendenze.length - task2.dipendenze.length;
+        break;
+
+      case "priorita":
+        risultato = task1.priorita - task2.priorita;
+        break;
+
+      default:
+      case "id":
+        risultato = task1.id.localeCompare(task2.id);
+        break;
+    }
+
+    return ascendente ? risultato : -risultato;
+  };
+}
+
+/*
+ * Funzione unioneParziale(A, n)
+ *
+ * Restituisce l'insieme di tutti gli elementi che compaiono in almeno n insiemi
+ * diversi presenti nell'array A.
+ *
+ * Parametri:
+ * - A: array di insiemi, ciascuno dei quali realizzato come visto a lezione
+ * - n: numero naturale che indica in quanti insiemi diversi un elemento deve
+ *      comparire per essere incluso nel risultato
+ *
+ * Restituisce:
+ * Un insieme contenente tutti gli elementi che compaiono in almeno n insiemi
+ * diversi di A
+ *
+ * Esempi:
+ *
+ * A = [{a, b}, {b, c}, {a, c, d}]
+ * unioneParziale(A, 2) → {a, b, c}
+ * // a compare in 2 insiemi, b compare in 2 insiemi, c compare in 2 insiemi,
+ * // d compare in 1 solo insieme
+ *
+ * unioneParziale(A, 1) → {a, b, c, d}
+ * // tutti gli elementi compaiono in almeno 1 insieme
+ *
+ * unioneParziale(A, 3) → ∅
+ * // nessun elemento compare in 3 o più insiemi
+ *
+ * Nota:
+ * Si abbia cura di trattare anche i casi limite (ad esempio n = 0, A vuoto, ecc.)
+ */
+
+function unioneParziale(A, n) {
+  let unioneP = {};
+  let contaElementi = {};
+
+  if (n > 0)
+    for (let insieme of A)
+      for (let elemento in insieme)
+        contaElementi[elemento] = (contaElementi[elemento] || 0) + 1;
+
+  for (let elemento in contaElementi)
+    if (contaElementi[elemento] >= n) unioneP[elemento] = 1;
+
+  return unioneP;
+}
+
+/*
+ * Funzione ricorsiva prodottoFLista(head, f)
+ *
+ * Calcola il prodotto dei valori dei nodi di una lista concatenata per i quali
+ * un predicato f vale true.
+ *
+ * Parametri:
+ * - head: testa della lista concatenata (implementata come visto a lezione)
+ * - f: predicato sui nodi della lista. È una funzione che prende in input un
+ *      nodo della lista e restituisce un valore booleano
+ *
+ * Restituisce:
+ * Il prodotto dei valori dei nodi per i quali f(node) è true.
+ * Restituisce 1 se nessuno dei valori dei nodi soddisfa il predicato f.
+ *
+ * Esempi:
+ *
+ * head = [5 → 4 → 12 → null]
+ * prodottoFLista(head, (node) => (node.val % 2 == 0)) → 48
+ * // f(4) = true, f(12) = true, quindi il prodotto è 4 * 12 = 48
+ *
+ * head = [3 → 7 → 9 → null]
+ * prodottoFLista(head, (node) => (node.val > 5)) → 63
+ * // f(7) = true, f(9) = true, quindi il prodotto è 7 * 9 = 63
+ *
+ * Nota:
+ * Se la lista contiene un nodo il cui campo val non è un numero intero, la
+ * funzione deve interrompersi e restituire il prodotto calcolato fino a quel
+ * punto (escluso).
+ *
+ */
+
+function prodottoFLista(head, f) {
+  if (head == null || !Number.isInteger(head.val)) return 1;
+
+  return (f(head) ? head.val : 1) * prodottoFLista(head.next, f);
+}
+```
+
+
+
+
+<details><summary><b>Compiler Options</b></summary>
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "alwaysStrict": true,
+    "esModuleInterop": true,
+    "checkJs": true,
+    "allowJs": true,
+    "declaration": true,
+    "target": "ES2017",
+    "jsx": "react",
+    "module": "ESNext",
+    "moduleResolution": "node"
+  }
+}
+```
+
+
+</details>
+
+**Playground Link:** [Provided](https://www.typescriptlang.org/play/?filetype=js&classId=4f7616ab-0962-481e-b6aa-bfcc450932ea#code/PQKgUABCEGIK4DsBeBLA9ggphAzmgtvgIYBKmADgCYoDmKALgBQCCANBAEYCUk4UEAYSIAbAMZphRCJNwFiEahHpx69FBHUI4+TACd1KBBEQQiu3UQCe0qaLjqL5crsw5MCekVQZsh4wiJeBSJPTiI3CAAL-wgXKloGCEZRdGjo8XxyNBxQyilEKTwZFIAzC1iUckxlTy4AOl4ggFUjOOo6eiiYrR1dNBsIOwciJxc3Dy90LA0jAsG9UI5w7HSCLJzA-jz-QolbFDKpfSqaojqIZkoIV0xM9AAuIIBaCAAmd5mwiIBmJJr6bDCbClFyyBD9V48fgvACMcJhnyWEVefxUAOkwIOoLw4IgMKhfGgAAUzEQdPR9I9oRd7qZzFYFJptHpNCE4BZhOptkQApykEgzJhnpxaUjsD0WaIpIxKJgAG7YVxuUEcCCACCIIIBUQnYqoAfHiCUEyDkGPYcKJMFToAAZXaEKSKf4GCAS-SfZiDAAW2Bx-TaCU6fjFnEa-AAom47lagnh7WR4h1GABtV4ANnYABYAAzsGEAVlz3wAuuxvlwIIAkwggAHYAJxBNOI5YQX7Rd4oxj+jpcTNZps-LrwhGdijtBg9oL5-vYVt4159xjg1qjgM9vG-IPN2fwpJd8cNfgAZTkRFpjYA1BBsxBLzDfgBeGv1qAxk-xsdMJPV3M5vF5ktvOWVbvK+cYromSYFnOuYABwAXmQEtlmobQAAcmgnhWhALwAPI0AgTK9P0ihzDghg0HsgxYtKWZPLW5bRFUugKJgJSGCg3jTCYe70Ae0AvOhRirAg4xqPQ-TCAA5HAeCMhA5JoIoziYLKbEEWoEBMQM4gIAquhkT4clikEEBJBk2DiYeFLkYw3AQP05BmG4ACSHj1BAtqDBgekGdMsoKtcODKr4mRAjoEyeCZSgWPgDCApJIgUfo9D4MRmDCECjJyigvnqDgcCiBaQUoAqfHAGAYAlIgohqBgshgQmDAsDq5YAN6QBinSxvIj5ZgA3BVpklGgzGMECnSuv0aAlBcbUdaZ42afoxACNRECPpNEAAKScANpkLdUsSuCglBwP0G3Mn0A3zRAADunooJlI5kad-T6lmc37ftBy7sdr3bZwEAAIT3o+zgoCt1HlhwLhEAA1tdX2mWMJ1netEAALIhJ6dQlMIaAjc9qP9MAnBcHt+0AL6Dd9M1E-9oO9eW3VSOeF1ERT1MdS4yi6EYLMDVzoBBPAyBTMCaykuJLgACrhHDyTJSyaDsOEFoILKHiYIa-DGmJZoWjsEBVWLhmKBkjkWJx2AqI9HEChwj0S-zI1MOWWkjdQAQuEEJhmBY1iKGgNA0NUGkAESeDgcPh7gmA6ZQ-QmKISv6P0OBVKUKBSuJfFBFZuhouyDrqCYweh6o-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-BsdMuCRO0-pCz+wGMNJj4jEL3hPJwIEhauCH0lJgMj4lhM5PPHnnHoXpgMXqXvsqfkpM3hAJRpAiUIuIpNrF0P3nxNOjAbOsAXVuKPtriOXqAWXqgRXnlIpNQDgCYhoIgS4Efm6iUB+tALZlGIgmPujJBHFhmHFjCCiFWFoBlKFvwEgQXmgAnjXinhapQOwAQbKOWPePqJoaqr3gDCiKDLrlwIhBmDBLtvgRmNoWCunowJITYf3uwLBoYIoLnrHooV0OIdAJIejOYUIWoSIb8FWNWHFrWHFjIcIHIdAAofHonhsKoWnkkN-kQTockYQXUAYfqAhIhKmN8JYYwNWI4YXJgHYfRO6iUc4fYBrAYJwfnpXF0KEdAOEY+HkbdhhKePnICJfqEEppelxEYN-nvPPEMH9pkP0AYZctECYJtPvHoCrDYEEPfmbPKHxgfH0JkBZtcEdCaLOidnUcgf0FKNnpIDwYYJhjgaksIEEG-kdowHkoJngPUChMjtCuSrEeJMoQkWPunoSvTsIcYZERANrsDKhNoGYroHUDlK5ACKHLoIkZQJkSIKYUSjWgbjTH7kYIwPgWPuWE2mPkifPLSJ1jER4XESoQSVgAAB70C-GCxAA)
+      
