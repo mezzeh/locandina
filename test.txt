@@ -1,1 +1,19 @@
 ora impazzisco
+ora dovrebbe aggiornare
+comandi per mandare online: 
+
+
+1)indicizzo le modifiche
+*******
+git add .
+******
+
+2) creo un istantanea
+git commmit -m "descrizione sintetica di cosa hai cambiato"
+
+3)mandi tutto online
+git push
+
+utili: 
+git status , da usare prima di add o commit
+git log --oneline
