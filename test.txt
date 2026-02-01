@@ -17,3 +17,7 @@ git push
 utili: 
 git status , da usare prima di add o commit
 git log --oneline
+
+
+x aggiornare i file modificati da un altra entita: 
+git pull
