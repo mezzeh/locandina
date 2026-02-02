@@ -1,6 +1,6 @@
 ora impazzisco
 ora dovrebbe aggiornare
-comandi per mandare online: 
+comandi per mandare online:
 
 
 1)indicizzo le modifiche
@@ -14,10 +14,13 @@ git commmit -m "descrizione sintetica di cosa hai cambiato"
 3)mandi tutto online
 git push
 
-utili: 
+utili:
 git status , da usare prima di add o commit
 git log --oneline
 
 
-x aggiornare i file modificati da un altra entita: 
+x aggiornare i file modificati da un altra entita:
 git pull
+
+:
+da zed si puo modificare il file ed pushare verso github
