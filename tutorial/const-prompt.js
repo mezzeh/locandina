@@ -1,4 +1,6 @@
+//installlalo tramite npm install prompt-sync
 // 1. Importa il modulo e inizializzalo
+
 const prompt = require("prompt-sync")();
 
 // 2. Utilizzalo per chiedere un input
