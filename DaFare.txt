@@ -1,3 +1,84 @@
 05/02/2026
 Oggi do una ripassata generale e mi esercito sui metodi insegnati dalla prof
 A partire dalla slide:
+Sulla base dei documenti forniti, ecco l'elenco degli argomenti trattati nelle lezioni disponibili (dalla 1 alla 18, poiché la 0 non è presente e le 15, 19 e 20 non sono incluse nei materiali):
+
+*   **Lezione 1: Introduzione al corso**
+    *   Presentazione degli obiettivi formativi e delle piattaforme (TypeScript Playground, EVO, MS Teams).
+    *   Architettura del computer: CPU, RAM, ALU, CU e ciclo fetch-execute.
+    *   Differenza tra linguaggi compilati, interpretati e transpiler.
+
+*   **Lezione 2: Introduzione a JavaScript e tipi di dato**
+    *   Storia e caratteristiche di JavaScript (weakly-typed e interpretato).
+    *   Struttura del programma: espressioni (valore finale) vs comandi (effetti collaterali).
+    *   Tipi primitivi: Number (inclusi NaN e Infinity), Boolean e String (template literals).
+    *   Variabili (`let`, `var`, `const`), valori `null` e `undefined`, e i 6 "falsy values".
+    *   Conversione di tipo (casting) e automatica (type coercion).
+    *   Input/Output base (`prompt` e `console.log`) e grammatiche BNF per i letterali.
+
+*   **Lezione 3: Costanti letterali e controllo del flusso**
+    *   Grammatiche e diagrammi di sintassi per letterali e identificatori.
+    *   Comandi condizionali: `if...else`, operatore ternario `?:` e comando `switch`.
+    *   Comandi iterativi: `for` (inclusi `in` e `of`), `while` e `do...while`.
+    *   Controllo dei cicli: `break` e `continue`.
+    *   Misurazione del tempo di esecuzione con `Date.now()`.
+
+*   **Lezione 4: Esercitazione**
+    *   Risoluzione di problemi algoritmici: numeri perfetti, ricerca di zeri, minimi e massimi di funzioni, e disegno di grafici su console.
+
+*   **Lezione 5: Object & Array**
+    *   **Oggetti**: mappe chiave-valore, accesso ai membri (notazione punto e parentesi quadre), operatori `in`, `delete` e ciclo `for...in`.
+    *   **Array**: oggetti con chiavi numeriche (indici), proprietà `length`, indici non consecutivi e metodi base (`push`, `pop`, `shift`, `unshift`, `concat`).
+
+*   **Lezione 6: Funzioni**
+    *   Definizione matematica (dominio e codominio) e implementazione in JS.
+    *   Funzioni come tipi di dato e costanti letterali (notazione "freccia" `=>` e parola chiave `function`).
+    *   Chiamata/invocazione e gestione dei parametri formali e attuali.
+
+*   **Lezione 7: Funzione Array.sort() ed esercitazione**
+    *   Utilizzo di `sort()` per ordinamento predefinito (UTF-16) e personalizzato tramite funzioni di confronto.
+
+*   **Lezione 8: Rappresentazione binaria**
+    *   Rappresentazione posizionale (basi 2, 8, 10, 16) e concetto di overflow.
+    *   Codifica interi: modulo e segno, complemento a 1 e **complemento a 2**.
+    *   Codifica reali (IEEE 754), testi (ASCII, Unicode/UTF-8), immagini raster e suono.
+    *   Operatori bitwise logici (`&`, `|`, `^`, `~`) e di scorrimento (`<<`, `>>`, `>>>`).
+
+*   **Lezione 9: Esercitazione su insiemi e multi-insiemi**
+    *   Rappresentazione tramite oggetti JS e implementazione operazioni (unione, intersezione, differenza).
+
+*   **Lezione 10: Scoping e visibilità**
+    *   Ambiti di visibilità: **scope globale, di funzione e di blocco**.
+    *   Concetti di annidamento, **shadowing** e **hoisting** (sollevamento delle dichiarazioni).
+    *   **Closures**: persistenza dello scope durante la dichiarazione di una funzione.
+
+*   **Lezione 11: Ricorsione**
+    *   Definizione di funzioni ricorsive e utilizzo dello stack di attivazione.
+    *   Passo base e passo induttivo; **ricorsione in coda** (tail recursion).
+    *   Esempi: successione di Fibonacci, ricerca lineare e binaria.
+
+*   **Lezione 12: Prima prova in itinere**
+    *   Analisi delle soluzioni e dei casi particolari del primo compito parziale.
+
+*   **Lezione 13: Valori, riferimenti e liste concatenate**
+    *   Semantica per valore (tipi primitivi) vs semantica per **riferimento** (oggetti e array).
+    *   Modifica di riferimenti e condivisione di oggetti in memoria.
+    *   Introduzione alle **liste concatenate**: struttura ricorsiva basata su nodi (`val` e `next`).
+
+*   **Lezione 14: Esercizi su liste concatenate**
+    *   Implementazione ricorsiva di operazioni: `listFind`, `listInsert`, `listPush`, `listPop`, `listNth`, `listIsSorted`, `listMap`, `listEquals`, `listSplice`.
+
+*   **Lezione 16: Alberi**
+    *   Codifica di **alberi binari** (sx, dx) e **alberi k-ari** (tramite array di figli) usando oggetti.
+    *   Esercizi di ricerca, somma, massimo e valutazione di espressioni aritmetiche rappresentate tramite alberi.
+
+*   **Lezione 17: Array avanzati, destrutturazione e spread**
+    *   Usi degli array come tuple, pile (LIFO) e code (FIFO).
+    *   Metodi funzionali: `every`, `some`, `find`, `map`, `filter`, `reduce`.
+    *   **Assegnamento con destrutturazione** per array e oggetti; valori di default.
+    *   **Operatore spread** (`...`) e parametro `rest` nelle funzioni.
+
+*   **Lezione 18: Alberi Binari di Ricerca (ABR) e grafi**
+    *   Proprietà degli **ABR** e operazioni di inserimento e ricerca.
+    *   Rappresentazione dei **grafi**: matrici di adiacenza e liste di adiacenza.
+    *   Differenza tra grafi orientati e non orientati.
