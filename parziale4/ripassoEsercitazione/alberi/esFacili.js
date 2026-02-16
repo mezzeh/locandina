@@ -36,15 +36,43 @@ let T2 = {
         }
     ]
 };
-console.log(contiene(T1,15))
+console.log(contiene(T1,1))
 function contiene(T, v)
 {
-  if (T.val == null)
-    return
   if (T.val == v)
     return true
-  for (let i = 0; i <= T.figli.length - 1; i++)
+
+  // for (let i = 0; i <= T.figli.length - 1; i++)
+  // {
+  //   if (contiene(T.figli[i], v))
+  //     return true
+  //   }
+
+  //oppure
+
+ for (let figlio of T.figli)
+ {
+ if(contiene(figlio,v))
+ return true
+ }
+
+  return false;
+}
+
+
+/*Trovare la somma dei valori in un albero binario
+Dire se un albero binario contiene un valore cercato o no
+Contare quanti sono i nodi di un albero binario che hanno un valore dato
+Scambiare fra di loro i rami destro e sinistro della radice di un albero binario
+Tagliare da un albero binario tutti i rami che iniziano da un nodo con valore
+dato */
+console.log(somma(T1))
+function somma(T)
+{
+  let som= 0
+  for (let figlio of T.figli)
   {
-    contiene(T.figli[i])
-    }
+    som += somma(figlio)
+  }
+  return som + T.val
 }
