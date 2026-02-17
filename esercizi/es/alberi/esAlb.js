@@ -8,7 +8,7 @@ let albero = {
     dx: {
         val: 8,
         sx: { val: 7, sx: null, dx: null },
-        dx: { val: 9, 
+        dx: { val: 9,
             sx: { val : 4 , sx : null , dx: null
                             }, dx: null }
     }
@@ -60,7 +60,7 @@ let  TTtree =  {
         val: 4,
         sx: { val: 1, sx: null, dx: null },
         dx: { val: 4, sx: null, dx: null }
-    
+
     }
        //
 //console.log(isEqual(Tree, TTtree))
@@ -80,7 +80,7 @@ function isEqual(albero, tree) {
     if (!albero && !tree)
         return true;
     //io parto all'inizio vedo che sono uguali! continuo // devo pensare ad avanzare dalla fine o pensare di star ritornando=
-    // il problema è che se arrivo all'ultiomo poi devo confrontare con null    
+    // il problema è che se arrivo all'ultiomo poi devo confrontare con null
     //cASO BASE 2ù
     //se sono diversi i valori
     if(!albero || !tree || albero.val != tree.val)
@@ -100,7 +100,7 @@ function somma (albero)
         return 0
 
 
- 
+
     return (albero.val + somma(albero.sx)+ somma(albero.dx))
 }
 function findEl(albero,n)
@@ -121,10 +121,10 @@ function countEl(albero,n)
     if(albero.val == n)
         return 1;
 
-    return countEl(albero.sx,n) + countEl(albero.dx,n) 
+    return countEl(albero.sx,n) + countEl(albero.dx,n)
 }
 function clona(albero)
-{   
+{
     if(!albero)
         return null
 
@@ -134,15 +134,15 @@ function switchTree(albero )
 {
     let tree = albero
     // struttura
-    /*    6 
+    /*    6
         5   7
       4  3  5  6
       */
-   let tempsx = tree.sx 
+   let tempsx = tree.sx
 
    tree.sx = tree.dx;
    tree.dx = tempsx;
-   return tree; 
+   return tree;
    //mhhhhh
 }
 function deleteTree(albero,n)
@@ -152,20 +152,20 @@ function deleteTree(albero,n)
 
     if(albero.val == n)
     {
-        albero.sx = null; 
+        albero.sx = null;
         albero.dx = null;
         return ;
     }
 
     return {val: albero.val, sx: deleteTree(albero.sx,n), dx : deleteTree(albero.dx,n) }
-   
+
 }
 let f = x => x*2
 function funzione(albero,f)
 {
     if(!albero)
         return null;
-    
+
     return {val: f(albero.val),sx :funzione(albero.sx,f), dx: funzione(albero.dx,f)}
 }
 console.log(albero)
