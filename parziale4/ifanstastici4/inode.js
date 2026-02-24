@@ -1,53 +1,94 @@
 class INode
 {
+ 
   constructor([a,b])
   {
     this.a = a
     this.b = b
     this.left = null
     this.right = null
+  
   }
   add(n)
   {
-
+  
     //inserise tramite l'algoritmo di un albero binario di ricerca l'intervallo dove è meglio che stia.
     //logica per il quale va ad inserirssi.
 
     //possiamo fare la ricorsione .
-    if (f([n[0],n[1]],[this.a,this.b])) {// se il nodo è minore della rooot va a sinistra
+    if (p([n[0],n[1]],[this.a,this.b])) {// se il nodo è minore della rooot va a sinistra
       if (this.left)// perche è minore
-        this.left.add(n)// se esiste gia il sinistro deleghiamo
+        {this.left.add(n)}// se esiste gia il sinistro deleghiamo
       else
-        this.left = n //se è vuoto lo inseriamo.
+        {this.left =  new INode(n)} //se è vuoto lo inseriamo.
     }
     else {
       if (this.right)
-        this.right.add(n)
+        {this.right.add(n)}
       else
-        this.right = n
+        {this.right =new INode(n)}
     }
-    return
+    return 
 
   }
   findValue(x) {
 
     if (!this)
-      return false
+      return false  
     if (x <= this.b && x >= this.a)
       return this
-    if (x < this.left.a)
-      return this.left.right.findValue(x)
-    else
-      return this.right.findValue(x)
+
+    //controlli molto rustici
+    if(this.left)
+    {if (x < this.a)
+      {
+      console.log("x < this.a ",x,this.a)
+          return this.left.findValue(x) // potrebbero non funzionare.
+      }
+      else{
+        console.log("a sinsitra vuoto")
+      } 
+    }
+    else if(this.b)
+    {
+
+      console.log("x < this.right,",x,this.right)
+        return this.right.findValue(x) //idem questa
+    }
+    //entrambi vuoti 
+    return null
+      
   }
-  get maxd() { }
-  get mind() {}
+
+  static #maxheight(n){
+    if(!n) return 0;
+ 
+    return 1+ Math.max(INode.#maxheight(n.left), INode.#maxheight(n.right));
+  }
+get maxd() {
+    return INode.#maxheight(this);
+}
+//non mi riconosceva i metodi ho usato le static(forse avrei dovuto usarle di piu )
+  static #minheight(n){
+    if(!n) return 0;
+ 
+    return 1+ Math.max(INode.#minheight(n.left), INode.#minheight(n.right));
+}
+
+get mind() {
+    return INode.#minheight(this);
+}
+
 
 }
-let f = ([x, y], [a, b]) => x < a || (x == a && y < b) // ritorna true se [x,y] < [a,b]
+
+//predicato
+let p = ([x, y], [a, b]) => x < a || (x == a && y < b) // ritorna true se [x,y] < [a,b]
+
 class YetAnotherAlbero {
   constructor() {
     this.root = null
+    this.size = 0
   }
 
   addInterval(nodo) {
@@ -57,6 +98,7 @@ class YetAnotherAlbero {
       this.root.add(nodo)
 
     }
+    this.size +=1
     return
 
   }
@@ -64,21 +106,5 @@ class YetAnotherAlbero {
   {
     return this.root.findValue(x)
   }
-}var arc = new YetAnotherAlbero();
-arc.addInterval([10, 20]);
-// assert.equal(arc.size, 1);
-arc.addInterval([0, 3]);
-// assert.equal(arc.size, 2);
-arc.addInterval([30, 40]);
-// assert.equal(arc.size, 3);
-console.log(arc.root.findValue(15) === arc.root);
-var n = arc.root.findValue(2);
-console.log(n !== null);
-console.log(n.findValue(2) === n)
-console.log(arc.root.findValue(100), null);
+}
 
-// assert.ok(n.a<= 2)
-// assert.ok(n.b>= 2)
-// assert.deepEqual(n, arc.root.left)
-
-//continuare a capire i test case, finire le funzioni size min zide max

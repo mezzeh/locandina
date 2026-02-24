@@ -1,4 +1,3 @@
-
 class MediaMobile
 {
   #a
@@ -14,13 +13,13 @@ class MediaMobile
   }
   succ()
   {
-    for (let j = 0; j <= 10; j++)//PARTE DA UNO PERCHE PERCHEEEE LI ARRAYAAAAA
+    for (let j = 0; j <= 10; j++)//
     {
-          if (j >=this.#k)// NON POSSO FARLO PARTIRE DA UNOOOOOOO AAAA
+          if (j >=this.#k)// se supera la soglia 
           {
             let somma = 0
 
-            for (let i = 1; i <= this.#k; i++)
+            for (let i = 1; i <= this.#k; i++)//itera su k elementi a partire da 1 senno no funzionerebbe la sottr
             {
               somma += this.#a[j-i] // APPLICAZIONE DELLA FORMULA
               }
@@ -37,16 +36,3 @@ class MediaMobile
     return this.#a.values() //speriam
   }
 }
-
-
-// console.log(mm.##k,mm.a)
-// var x = mm.succ()
-// console.log(x)
-// let r = [1, 2, 3, 4];
-// const t = r.values()
-//
-
-
-var mm = new MediaMobile(2, 10, 0);
-var x = mm.succ(),
-  r = [];
