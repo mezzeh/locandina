@@ -1,0 +1,55 @@
+//ripasso dell'esame del parziale 4 ,
+compresione piena dei generatori con esercizi (oggi)
+
+//andare avanti con gli argomenti.
+da slide 25 in poi.
+
+Esercitazione slide 25, evolearning
+
+
+
+https://gemini.google.com/share/db865912db26
+
+Procediamo con metodo. Affronteremo un problema alla volta, progettando la logica prima di toccare l'editor. Ecco le specifiche dei quattro esercizi, focalizzati sulle architetture che devi consolidare:
+
+### 1. Gestione Dinamica e Invarianti di Classe (Rif. FinestraLab)
+
+**Obiettivo:** Gestire un array interno applicando rigorosamente un limite di capienza tramite cicli `while`, evitando calcoli manuali di offset.
+**Specifica:** Progetta una classe `LogTracker`. Deve memorizzare stringhe di log. Ha una proprietà `maxLogs` (di default $100$).
+
+* Implementa l'inserimento: se l'aggiunta di un nuovo log fa superare la soglia `maxLogs`, il log più vecchio deve essere eliminato.
+* Implementa il setter per `maxLogs`: se il limite viene abbassato a runtime (es. da $100$ a $50$), il buffer deve immediatamente scartare tutti i log in eccesso partendo dai più vecchi, fino a rientrare nella nuova dimensione.
+
+### 2. Generatori e Sliding Window in $O(K)$ (Rif. MediaMobile)
+
+**Obiettivo:** Implementare l'iterazione *lazy* infinita e mantenere l'occupazione di memoria costante, indipendentemente da quanti valori vengono generati.
+**Specifica:** Progetta una classe `TokenGenerator`. Prende in input una lunghezza massima della finestra $K$ e un array iniziale di seed numerici.
+
+* Implementa un metodo generatore (`*genera()`) che produce valori all'infinito usando un ciclo `while(true)`.
+* A ogni iterazione (tramite `yield`), il nuovo valore è la somma crittografica (simulata tramite una semplice addizione o XOR) degli elementi attualmente nella finestra di grandezza $K$.
+* Applica il pattern *sliding window*: inserisci il nuovo valore calcolato ed elimina il più vecchio, mantenendo l'array di lavoro sempre e solo di dimensione $K$.
+
+### 3. Hash Map e Isolamento dello Stato nel DFS (Rif. MapStation)
+
+**Obiettivo:** Abbandonare la ricerca lineare in Array a favore di accessi in tempo $O(1)$ tramite Hash Map. Gestire lo stato della ricorsione senza inquinare l'ambiente globale.
+
+**Specifica:** Progetta una classe `NetworkTopology` per mappare collegamenti tra indirizzi IP (router).
+
+* Usa un normale oggetto letterale (Hash Map) per la lista di adiacenza, dove la chiave è l'IP (stringa) e il valore è l'array degli IP connessi.
+* Implementa un metodo di connessione bidirezionale. Usa un metodo privato per garantire che un nodo esista prima di collegarlo (principio DRY).
+* Implementa un metodo `traceRoute(ipA, ipB)`. Usa una funzione interna per la ricerca DFS. Passa un oggetto `seen` per tracciare i nodi visitati, garantendo che i percorsi scartati in fase di *backtracking* non corrompano le ricerche successive.
+
+### 4. Alberi Binari (BST), Intervalli e Controllo dei Null (Rif. INode)
+
+**Obiettivo:** Gestire correttamente i rami mancanti, evitare controlli inutili e far risalire i valori di ritorno lungo tutta la catena ricorsiva.
+**Specifica:** Progetta una classe `PortScannerTree`. Ogni nodo gestisce un intervallo di porte di rete `[min, max]`.
+
+* Implementa la logica di inserimento BST.
+* Implementa un metodo `isPortVulnerable(portaTarget)`. Deve restituire il nodo esatto se la porta target è compresa nell'intervallo `[min, max]` del nodo.
+* Se non lo è, deve verificare l'esistenza del nodo figlio corretto (sinistro o destro, in base a un tuo predicato logico) *prima* di scendere in ricorsione. Assicurati che ogni ramo della condizione termini con un `return` esplicito per non disperdere il risultato (niente `undefined`).
+
+PASSO-PASSO: Da quale di questi quattro scenari vuoi iniziare? Una volta scelto, descrivimi a parole (Azione A: Whiteboarding) come intendi strutturare la classe, quali variabili userai e come si comporterà la logica principale, prima di scrivere qualsiasi blocco di codice. Attendo tua conferma.
+
+
+
+Dopo aver risolto gli esercizi si puo procedere alle ulteriori slide. 
