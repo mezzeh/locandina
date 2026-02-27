@@ -26,4 +26,4 @@ git pull
 da zed si puo modificare il file ed pushare verso github
 
 
-it pull origin main --no-rebase
+git pull origin main --no-rebase
