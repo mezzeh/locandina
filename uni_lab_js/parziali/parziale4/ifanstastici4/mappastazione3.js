@@ -131,7 +131,7 @@ class MapStation
   {
     if (this.adj[u] == undefined)
     {
-      this.adj[u] = [u]
+      this.adj[u] = [u]// assegna alla chiave il valore ? lo stesso ip assegna il suo stesso ip?
       this.size++
       }
   }
@@ -155,17 +155,19 @@ class MapStation
   percorso(u, v)
   {
     if (this.adj[u] == undefined)
-      return null
+      return null// se il valore dei collegamenti del nodo è indefinito. cancella?
     let seen = {}
 
-    let dfs = (x) => {
-      if (x == v) return [x]
-      seen[x] = true
-      for (let y of this.adj[x]) {
-        if (!seen[y]) {
-          let p = dfs(y);
-          if (p != null) {
-            p.unshift(x)
+    let dfs = (x) => { // la funzione dfs verra chiamata ricorsivamente, entrera e controllera  ogni nodo di ogni lista di adiacenza,
+      //confrontera ogni v con x , v equivale a dfs
+      if (x == v) return [x]//se x === v? ho capito, lui mi da due nodi, io controllo che x === v ,
+      seen[x] = true // seen per mettere in ogni caso il visitato
+      for (let y of this.adj[x]) { //scorre la lista di adiacenza del nodo x
+        if (!seen[y]) {// se non è visitato
+          let p = dfs(y);//p = dfs di y quindi avvia ricerca sul nodo di y ,
+
+          if (p != null) {//se risulta vuoto quindi se l'elemento x che è il primo elemento di dfs
+            p.unshift(x)// p unshift x?
             return p;
           }
         }
@@ -174,4 +176,58 @@ class MapStation
     };
     return dfs(u)
   }
+}
+
+
+/// ulteriore versione
+//
+class MapStation{
+    size=0;
+    stazioni = new Map() // chiave "Termini" --> valore oggetto stazione {val: "Termini"}
+    collegamenti = new Map() // chiave {val: "Termini"} --> valore Set( {val:"Firenze"} , {val:"Napoli"} )
+
+    rendiStazione(s){
+        if (!this.stazioni.has(s)){
+            let nuovastazione = {val: s}
+            this.stazioni.set(s, nuovastazione)
+            this.collegamenti.set( nuovastazione, new Set() )
+            this.size++
+        }
+        return this.stazioni.get(s)
+    }
+
+    binario(u,v){
+        let nodoU = this.rendiStazione(u)
+        let nodoV = this.rendiStazione(v)
+        this.collegamenti.get( nodoU ).add( nodoV )
+        this.collegamenti.get( nodoV ).add( nodoU )
+    }
+
+    diretto(u,v){
+        let nodoU = this.stazioni.get(u)
+        let nodoV = this.stazioni.get(v)
+        return (nodoU && nodoV) ? this.collegamenti.get( nodoU ).has(nodoV) : false
+    }
+
+    trovaPercorso(nodocorrente, nodotarget, nodivisitati = new Set() ){
+        if (nodocorrente === nodotarget) return [nodocorrente.val]
+        nodivisitati.add( nodocorrente )
+        for (let vicino of this.collegamenti.get(nodocorrente)){
+            if (!nodivisitati.has(vicino)){
+                let arrCammino = this.trovaPercorso(vicino,nodotarget,nodivisitati)
+                if (arrCammino) return [nodocorrente.val, ...arrCammino]
+            }
+        }
+        return null
+    }
+
+    percorso(u,v){
+        let nodoU = this.stazioni.get(u)
+        let nodoV = this.stazioni.get(v)
+        return (nodoU && nodoV) ? this.trovaPercorso(nodoU, nodoV) : null
+    }
+
+    raggiungibile(u,v){
+        return Boolean(this.percorso(u,v))
+    }
 }

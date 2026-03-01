@@ -134,10 +134,10 @@ class INode{
   }
   findValue(x) {
     if (x >= this.a && x <= this.b) return this
-    if (x < this.a)
+    if (x < this.a)// se x è minore di sx ritorna il valore di sx in caso. ,
       return this.left ? this.left.findValue(x) : null
 
-    let found = this.right ? this.right.findValue(x) : null
+    let found = this.right ? this.right.findValue(x) : null // ricerca
     if (!found)
     {
       found  = this.left ? this.left.findValue(x):null
