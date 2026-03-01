@@ -33,6 +33,8 @@ function merge(arr,s,mid,d)
 
      for(let  i = 0; i < n2; i++)
             B[i] = arr[mid+1+i]
+ /*    A[n1+1] = Infinity
+    B[n2+1] = Infinity */// puoi usarli solo in caso di for , perche nel while scorrerebbe all'infinito.
     //fine copiaggio array
     
     let i = 0;let j = 0;let  k = s;
@@ -53,7 +55,7 @@ function merge(arr,s,mid,d)
     }
 
     // essendo uno dei due array finito procedo a copiare gli elementi rimasti se ce ne sono
-     while(j < n2)
+      while(j < n2)
     {
                 arr[k] = B[j]
                 k++; 
@@ -63,7 +65,9 @@ function merge(arr,s,mid,d)
     {
                 arr[k] = A[i]
                 i++; k++
-    }
+    } 
+    //NB questi due cicli while finali possono essere sostituiti se alll'ultimo elemento dell'array quindi nell 'elemento A[n1]// quindi oltre si assegna infinity
+  
     console.log(arr)
 }
 
