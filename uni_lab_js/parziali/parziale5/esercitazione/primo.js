@@ -57,7 +57,7 @@ class GradeBook
     //ora io ho l'oggetto
     let arr = data.grades
     let newb = new GradeBook(data.TotalCredits)
-    newb.registra(...arr.map((x) =>  ))
+    newb.registra(...arr.map((x) => x = new grade(x.nome,x.voto, x.credit,x.data,x.lode)))
 
   }
 
