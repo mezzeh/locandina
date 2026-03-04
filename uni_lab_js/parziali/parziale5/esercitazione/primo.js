@@ -67,7 +67,6 @@ class grade
     return this.#voto
   }
 }
-
 class GradeBook {
   #grades = [];
   constructor(tc) {
@@ -114,6 +113,7 @@ class GradeBook {
   }
   toString() {
     // nell'esporazione i grades non vengono correttamente esportati:avendone due non li visualizzo.
+    console.log("GradeBook to String: ")
     return JSON.stringify({grades : this.#grades,TotalCredits: this.TotalCredits})
   }
   exportJSON(f){
@@ -149,8 +149,6 @@ class BachelorGradebook extends GradeBook
     super();
   }
 }
-
-
 //errorriii
 class InvalidCreditsError extends Error
 {
@@ -181,24 +179,24 @@ class MissingCreditsError extends Error {
   }
 };
 
-try {
-  var fdi = new grade("analisi", 12, "21 marzo 2006", 30, false)
+// try {
+//   var fdi = new grade("analisi", 12, "21 marzo 2006", 30, false)
 
-  var ga = [ "fdi", 9, "21 marzo 2007", 20, false]
-   let g = new grade("fdi", 9, "21 marzo 2007", 20, false)
-  var libretto = new GradeBook( 180)
-  libretto.registra(fdi);
-  libretto.registra(g);
-  libretto.exportJSON('testo.txt')
-  console.log("oggetto creato dal file:",GradeBook.fromJSON('testo.txt'))
+//   var ga = [ "fdi", 9, "21 marzo 2007", 20, false]
+//    let g = new grade("fdi", 9, "21 marzo 2007", 20, false)
+//   var libretto = new GradeBook( 180)
+//   libretto.registra(fdi);
+//   libretto.registra(g);
+//   libretto.exportJSON('testo.txt')
+//   console.log("oggetto creato dal file:",GradeBook.fromJSON('testo.txt'))
 
-}
-catch (e)
-{
-  console.log(e instanceof InvalidValueError);
-  console.log(e.creditosbagliato)
-  console.log(e.message); // "Hello"
-  console.log(e.name); // "TypeError"
-  console.log(e.stack); // Stack of the error
-}
+// }
+// catch (e)
+// {
+//   console.log(e instanceof InvalidValueError);
+//   console.log(e.creditosbagliato)
+//   console.log(e.message); // "Hello"
+//   console.log(e.name); // "TypeError"
+//   console.log(e.stack); // Stack of the error
+// }
 export {GradeBook,MasterGradebook,grade,InvalidCreditsError,MissingCreditsError}
