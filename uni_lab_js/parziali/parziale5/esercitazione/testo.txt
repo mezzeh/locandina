@@ -1,1 +1,1 @@
-fdi,9,21 marzo 2007,20,false
+{"grades":[{"nome":"analisi","crediti":12,"data":"2006-03-20T23:00:00.000Z","voto":30,"lode":false},{"nome":"fdi","crediti":9,"data":"2007-03-20T23:00:00.000Z","voto":20,"lode":false}],"TotalCredits":180}
