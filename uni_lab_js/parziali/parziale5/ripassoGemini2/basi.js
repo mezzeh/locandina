@@ -65,7 +65,7 @@ class DeviceManager
   {
     for (let device of devices)
     {
-      if (this.#devices.some(function(elem) { if (elem.nome ) { return true; } else { return false; } })
+      if (this.#devices.some(d => d.obj.nome === device.obj.nome))
         throw new DuplicateDeviceError("il dispositivo è gia nel registro.")
       else
         this.#devices.push(device)
