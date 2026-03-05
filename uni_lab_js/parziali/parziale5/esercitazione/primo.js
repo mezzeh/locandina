@@ -46,7 +46,6 @@ class grade
       }
       toString()
       {
-
         return JSON.stringify(this.obj)
       }
       get obj()

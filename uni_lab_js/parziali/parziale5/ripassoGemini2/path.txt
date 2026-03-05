@@ -1,0 +1,1 @@
+{"devices":[{"nome":"iphone x","osVersion":16,"isJailBroken":false},{"nome":"samsung","osVersion":26,"isJailBroken":false}]}
