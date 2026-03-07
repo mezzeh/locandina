@@ -1,23 +1,11 @@
-import * as mezze from "./../../moduli/mergesort.js";
+import * as mezze from "../../moduli/ordinamenti.js";
+import * as ricerca from "../../moduli/ricerca.js"
 
 // devo fare un programma che trova se due array hanno lo stesso elemento
-let A = [9,7,5,3,1]
-let B = [0,2,5,6,8]
+let A = [9,7,5,5,3,1]
+let B = [0,2,2,6,8]
 
-function trovaNum(A,B)
-{
-    for(let i = 0; i< A.length; i++)
-        {
-            for(let j = 0; j <B.length; j++)
-            {
-                if(A[i] == B[j])
-                    return A[i]
-            }
-        }  
-        return null;
-        
-}
-
+   
 //versione complessa ; trovare un numero uguale ordinando l'array con la ricerca lineare, si potrebbe trovare con una ricerca binaria?
 
 // forse si.
@@ -25,6 +13,7 @@ function trovaNum(A,B)
 mezze.saluta()
 mezze.mergesort(A,0,A.length-1)
 console.log("dopo il merge",A)
+console.log(ricerca.trovaNumeroUguale(A))
 
 
 /* function mergesort(A,p,r)
