@@ -27,3 +27,8 @@ function buildHeap(A)
         } 
     }
 } 
+
+function aggiustaHeap(A,ultimo)
+[
+    
+]
