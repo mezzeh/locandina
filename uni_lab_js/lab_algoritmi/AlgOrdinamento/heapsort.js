@@ -22,8 +22,8 @@ function buildHeap(A)
             let temp = A[j] 
             A[j] = A[p]
             A[p] = temp
-            j = p // riparte automaticamente dal membro scambiato per rieffettuare il controllo su il padre e stabilire 
+            j = p // riparte automaticame nte dal membro scambiato per rieffettuare il controllo su il padre e stabilire 
             p = Math.floor((j-1)/2)// troviamo il padre di j !!
         } 
     }
-}
+} 
