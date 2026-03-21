@@ -1,0 +1,31 @@
+Esercizio 1: Sistema di Sensori (Classi ed Eccezioni)
+
+Scrivi il codice per modellare un sistema di monitoraggio ambientale.
+
+    Crea un'eccezione custom ValoreFuoriScala che accetti nel costruttore un messaggio, il valore inserito e l'id del sensore.
+
+    Crea una classe Sensore con:
+
+        Campi privati: #id (stringa) e #letture (array vuoto inizialmente).
+
+        Costruttore che imposta l'id.
+
+        Getter per id e letture.
+
+        Un metodo registra(valore) che aggiunge il valore all'array delle letture.
+
+    Crea una classe SensoreCritico che estende Sensore:
+
+        Introduce un campo privato #sogliaMassima.
+
+        Il costruttore accetta id e sogliaMassima.
+
+        Fai l'override del metodo registra(valore): se il valore supera la sogliaMassima, il metodo non registra il valore e lancia l'eccezione ValoreFuoriScala. Altrimenti, registra regolarmente il valore sfruttando il metodo della classe padre.
+
+Esercizio 2: Processamento e Generatori (Iterazione avanzata)
+
+Sfruttando le classi dell'Esercizio 1:
+
+    Scrivi una funzione collaudo(sensori, valori_test) che riceve un array di sensori e un array di numeri. La funzione deve tentare di registrare ogni valore di test in ogni sensore. Deve restituire un array contenente gli id dei sensori che hanno generato un'eccezione ValoreFuoriScala durante il test.
+
+    Scrivi un generatore sensoriInAllarme(sensori, limite) che accetta un array misto di sensori. Il generatore deve restituire (usando yield) solo le istanze di SensoreCritico (ignorando i sensori normali) la cui ultima lettura registrata è superiore al limite passato come parametro.
