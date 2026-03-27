@@ -22,5 +22,8 @@
     "@types/prompt-sync": "^4.2.3",
     "assert": "^2.1.0",
     "prompt-sync": "^4.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.2"
   }
 }
