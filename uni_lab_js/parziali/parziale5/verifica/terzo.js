@@ -18,9 +18,10 @@ class Movimento
   }
 class Caveau
 {
+  static #tutteTransazioni = []
   #owner;
   #saldo = 0;
-  #movimenti = new Set()
+  #movimenti = []
   constructor(owner, saldoIniziale)
   {
     if (owner !== "" && typeof(owner) == "string" )
@@ -31,67 +32,57 @@ class Caveau
       this.#saldo = saldoIniziale;
       else throw new TypeError("saldo non puo essere < 0")
   }
+
   get saldo()
   {
     return this.#saldo
   }
-  versa(n, causal)
-  {
-    if (n > 0)
-      this.#saldo += n;
-    else throw new TypeError ("n must be postitive")
 
-    if (typeof (causal) === "string") {
-      let el = new Movimento('V', n, causal)
-      this.#movimenti.add(el)
-    }
-      else {throw new TypeError("causale must be a stringa");
-      }
+  versa(n, causale)
+  {
+
+    if (typeof n !== "number" || Number.isNaN(n) || n <= 0) throw new TypeError("n");
+    if (typeof causale !== "string") throw new TypeError("causale");
+
+    this.#saldo += n;
+    this.#movimenti.push(new Movimento("V", n, causale));
+    Caveau.#tutteTransazioni.push([this, this.#movimenti[this.#movimenti.length - 1]])// push di
+    //ogni istanza piu transazione di eso
   }
-  preleva(n, causal)
+  preleva(n, causale)
   {
- console.log(typeof(causal))
-    if (n > 0) {
+    if (typeof n !== "number" || Number.isNaN(n) || n <= 0) throw new TypeError("n");
+    if (typeof causale !== "string") throw new TypeError("causale");
+    if (n > this.#saldo) throw new FondiInsufficienti("fondi");
 
-      if ((this.#saldo - n) <= 0)
-        throw new FondiInsufficienti("non hai abbastanza soldi", n)
-       this.#saldo -= n
-      console.log("check")
-      if (typeof (causal) == "string" && causal != "") {
-        console.log(causal)
-        this.#movimenti.add(new Movimento('P', n, causal))
-      }
-      else {
-        console.log(causal)
-        throw new TypeError("causale must be a string")
-      }
-    }
-    else
-     throw TypeError("n must be positive")
+    this.#saldo -= n;
+    this.#movimenti.push(new Movimento("P", n, causale));
+
+    Caveau.#tutteTransazioni.push([this, this.#movimenti[this.#movimenti.length - 1]])//
     }
   estratto(k = 10)
   {
     let arr = []
-    let cont = 0;
-    for (let el of this.#movimenti)
+
+    if (k <= 0) return arr;
+
+    var slice = this.#movimenti.slice(-k).reverse();// taglia a partire dall'ultimo k elementi,
+    // prendo i k elementi. ma senza il reverse avrei 12345; slice -2 45 ma io li voglio in ordine di ultimo arrivato quindiiii. : .reverse = 54 !!
+    return slice
+    //nb la registrazione dei movimenti è tramite push non unshhift.
+  }
+  static transazioni()
+  {
+    let s = new Set();
+    for (let i = 0; i < Caveau.#tutteTransazioni.length; i++)
     {
-      if (cont < k)
-        arr.push(el)
-      else
-        return arr;
-      cont++;
-      console.log(arr)
-    }
-    return arr
+      let pair = Caveau.#tutteTransazioni[i];
+      let c = pair[0]
+      let m = pair[1]
+      s.add([c, m])
 
-    // let a = Array.from(this.#movimenti)
-    // console.log(a)
-    // for (let i = 0; i <= k; i++) {
-
-    //   arr.push(this.#movimenti[k])
-    //   console.log(this.#movimenti[k])
-    // }
-    // return arr
+      }
+    return s
   }
 
 }
@@ -173,6 +164,7 @@ try {
     console.log("Test 7 (preleva lancia TypeError): SUPERATO");
 
     // Test 8: estratto restituisce i movimenti dal più recente al meno recente
+  console.log("Test 8 : inizio....:");
     let c8 = new Caveau("Y", 0);
     c8.versa(20, "V1");
     c8.preleva(20, "P1");
