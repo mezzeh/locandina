@@ -15,15 +15,11 @@ const anniNumerico = parseInt(anni);
 console.log("L'anno prossimo ne avrai " + (anniNumerico + 1));
 
 
-
-// Source - https://stackoverflow.com/a/65852551
-// Posted by Aluan Haddad, modified by community. See post 'Timeline' for change history
-// Retrieved 2026-03-18, License - CC BY-SA 4.0
-
 import promptSync from 'prompt-sync';
 
-//const prompt = promptSync();
+const prompt = promptSync();
 
 const result = prompt(message);
+
 
 //versioneE6
