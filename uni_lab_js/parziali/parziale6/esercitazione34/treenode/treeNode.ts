@@ -64,7 +64,7 @@ class TreeNode
             cont += this.left.count() +1
         if(this.right)
             cont += this.right.count()+1
-
+ 
         return cont;
 
     }
