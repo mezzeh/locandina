@@ -55,7 +55,10 @@ console.log(descrivi(traccia))
 function aggiungiGenere(t: Traccia, gen: string):nuova
 {
 
-  let obj: nuova = {genere :gen, titolo : t.titolo,artista: t.artista,durata: t.durata,preferita: t.preferita};
+ // let obj: nuova = {genere :gen, titolo : t.titolo,artista: t.artista,durata: t.durata,preferita: t.preferita};
 
-return obj
+  return {
+    ...t,
+    genere:gen
+}//che porcata
 }
