@@ -37,5 +37,12 @@ function descrivi(t) {
     return `${t.titolo}- ${t.artista} `;
 }
 console.log(descrivi(traccia));
+function aggiungiGenere(t, gen) {
+    // let obj: nuova = {genere :gen, titolo : t.titolo,artista: t.artista,durata: t.durata,preferita: t.preferita};
+    return {
+        ...t,
+        genere: gen
+    }; //che porcata
+}
 export {};
 //# sourceMappingURL=secondo.js.map
