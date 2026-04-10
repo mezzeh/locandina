@@ -1,10 +1,6 @@
 /*Questo esercizio va svolto in TypeScript. Una traccia musicale è rappresentata da un oggetto con 4
 proprietà: titolo, artista (stringhe) durata (numerico), preferita (un booleano opzionale).
-●
-●
-●
-●
-●
+
 Si definisca una interfaccia Traccia.
 Si scriva una funzione durataTotale(lista) che restituisca la somma delle durate di tutte le tracce in
 lista.
