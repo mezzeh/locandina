@@ -72,6 +72,7 @@ let arr = [{ d: 0, l: 2 }, { d: 0, l: 1 }, { d: 2, l: 2 }, { d: 2, l: 2 }]; // n
 console.log("punto,di partenza: 0,0");
 let p = walk([0, 0], arr);
 console.log(" <- punto di arrivo");
+console.log("posizione finale applicata con funzione:", applica([0, 0], arr, trasformatore));
 console.log("posizione finale applicata con funzione:", applica([0, 0], arr));
 export {};
 //# sourceMappingURL=robot.js.map
