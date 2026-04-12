@@ -1,0 +1,29 @@
+Di seguito sono elencati 4 esercizi progettati per coprire tutti gli aspetti dei generics trattati nel tuo corso (funzioni generiche, classi generiche, vincoli sui tipi e tipi generici multipli).
+
+Come richiesto, non è presente il codice. Per ogni esercizio troverai i requisiti e alcune domande di ragionamento. Rispondi alle domande per strutturare mentalmente la soluzione prima di scriverla.
+
+### Esercizio 1: Funzioni Generiche e Vincoli (Constraints)
+**Requisito**: Implementa una funzione `sortByPrice` che accetta un array di oggetti e un parametro di ordinamento (crescente o decrescente). La funzione deve ordinare l'array in base alla proprietà `price` di ciascun oggetto.
+**Domande per ragionare**:
+1. Se utilizzi un tipo generico `T` per denotare gli elementi dell'array, il compilatore non sa a priori che `T` possiede una proprietà `price`. Quale meccanismo e quale parola chiave devi utilizzare per limitare `T` solo ai tipi validi?
+2. Perché è preferibile usare un generico vincolato piuttosto che definire l'argomento direttamente come un array di un'interfaccia `{ price: number }`? Cosa cambia per il tipo di ritorno della funzione?
+
+### Esercizio 2: Classi Generiche e Gestione delle Assenze
+**Requisito**: Trasforma una struttura dati a tua scelta (ad esempio la classe `Trie` delle esercitazioni) in una mappa chiave-valore. Le chiavi devono essere stringhe e i valori devono essere di un tipo generico. Deve esporre i metodi `insert(key, value)` e `lookup(key)`.
+**Domande per ragionare**:
+1. A quale livello logico (classe, costruttore o singolo metodo) devi dichiarare il parametro di tipo generico affinché lo stato interno mantenga coerenza tra `insert` e `lookup`?
+2. Quale deve essere il tipo di ritorno del metodo `lookup(key)` considerando l'eventualità che la chiave richiesta non esista nella struttura?
+
+### Esercizio 3: Generics Multipli e Funzioni di Callback
+**Requisito**: Aggiungi alla classe dell'Esercizio 2 un metodo `reduce(f, initialValue)`. Questo metodo deve accumulare tutti i valori presenti nella struttura usando la funzione di callback `f`.
+**Domande per ragionare**:
+1. Il risultato dell'operazione `reduce` non è necessariamente dello stesso tipo dei valori memorizzati nella struttura (ad esempio, potresti ridurre una lista di stringhe in un numero). Questo richiede un secondo parametro generico. Questo nuovo parametro va dichiarato a livello di classe o di metodo?
+2. Qual è la firma esatta della callback `f` che passeresi come argomento, tenendo conto sia del tipo originale dei valori sia del nuovo tipo dell'accumulatore?
+
+### Esercizio 4: Inferenza dei Tipi in Costruttori Complessi
+**Requisito**: Struttura una classe (simile al modello del Perceptron o della Mappa Logistica visti nelle slide) il cui costruttore accetta come parametro una funzione di trasformazione `transform` che mappa un numero su un tipo generico, e una funzione `distance` che calcola la distanza numerica tra due elementi dello stesso tipo generico.
+**Domande per ragionare**:
+1. Quando istanzi questa classe creando un oggetto `new`, in base a cosa il compilatore deduce il tipo generico se non lo specifichi esplicitamente tra parentesi angolari?
+2. Se le firme di `transform` e `distance` usano il tipo generico in modo discordante durante l'inizializzazione, come si comporta il controllo statico dei tipi?
+
+Esponi la logica con cui risolveresti questi punti. Appena i concetti sono definiti, possiamo discutere l'architettura tecnica.
