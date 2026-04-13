@@ -2,7 +2,11 @@
 class Node {
   isTerminal: boolean = false;
   children: Map<string, Node> = new Map<string, Node>()
-}
+  // value: number = 0
+} // o uso un oggetto al posto di node <string , object{v:number,nodo:Node}
+//oppure direttamente un oggetto di oggetti, oppure metto un valore in Node.
+//
+// quindi per accedere al valore di NOde ho value.
 
 class Trie {
   root: Node;
@@ -12,27 +16,76 @@ class Trie {
     this.n = 0 // per il peso?
   }
 
-  insert(word: string) {
+  insert(word: string) :void{
     let current :Node= this.root
     // iterate through all the characters of word
-    for (let c of word) {
-        if (!current.children.has(c))
-            current.children.set(c, new Node())
+    for (let c of word) { // scannerizziamo la parola carattere per carattere
+        if (!current.children.has(c)) // se il suo slot è libero
+            current.children.set(c, new Node()) // ci creiamo un nuovo nodo.
             current = current.children.get(c)! // L'operatore "!" asserisce che "node.children.get(c)" (di tipo TrieNode | undefined) non è undefined, permettendone l'assegnazione a "node" (di tipo TrieNode)
-    }
-    if (!current.isTerminal) {
-        current.isTerminal = true
-        this.n++
+    }       // e passiamo al successivo
+    if (!current.isTerminal) { // il curent arrivati a questo punto sarà l'ultimo carattere della parola
+        current.isTerminal = true // e allora qua aggiorniamo la variabile isTerminal. nb non da fastidio durante la ricerca delle parole non cambia niente.
+        this.n++ // qua nota bene, segna la fine di una parola. ma n è di trie, quindi incrementa il valore comune tra tutte le parole
     }
   }
-    lookup(key: string): boolean {
+  lookup(key: string): boolean
+  {
         let node: Node = this.root
-        for (let c of key) {
-            if (!node.children.has(c))
+        for (let c of key) { // qua data una parola cerchiamo
+            if (!node.children.has(c)) // se di fatto il successivo carattere non è presente allora la parola non c'è
                 return false
-            node = node.children.get(c)!
-        }
-        return node.isTerminal
+            node = node.children.get(c)!// qua andiamo avanti nella ricerca saltando nel carattere.
+        }// dopo aver. girato tutta la parola
+    return node.isTerminal // restituiamo il valore, che sarà per forza true senno avremmo ricevuto false in precedenza. perche non return true?
+    //perche non return true?
     }
+
+  *prefixSearch(prefix: string): Generator<string> // un generatore che restituisce un generatore
+  {
+    let node: Node = this.root;
+    for (let c of prefix)
+    {
+      if (!node.children.has(c)) // classica ricerca
+        return
+      node = node.children.get(c)! // ricorsione
+    }
+    yield* this.collectAll(node,prefix) // è come se fosse un return: solo che restituiscie un generatore. dato gia il prefisso, il generatore partira da questo prefisso
   }
-}
+  private *collectAll(node: Node, prefix: string): Generator<string>
+  {
+    if (node.isTerminal) yield prefix //se terminale da prefix, ma poi va avanti, potrebbero esserci altre parole. // puo esserci una sola parola che coincide a quell'esatto prefisso
+    // percuio che la prima chiamata al prefisso puo essere singola.
+
+    for (let [char, child] of node.children) // data la coppia di valori presente nella Map:->   children: Map<string, Node> = new Map<string, Node>()
+    {
+      yield*this.collectAll(child,prefix+char) // delega al prossimo, perche TUTTE LE PAROLE SONO VALIDE DAL PREFISSO IN POI.
+      }
+  }
+  get size(): number {return this.n}
+  }
+
+
+
+
+  // ESEMPI DI TEST
+  // Creazione di un trie con "parole" italiane
+  const parole: string[] = ["cosavuoi","cosa","anno","uomo","giorno","volta","casa","parte","vita","tempo","donna","mano","occhio","ora","signore","paese","momento","modo","mondo","parola","padre","punto","lavoro","stato","caso","città","guerra","strada","figlio","notte","voce","nome","sera","acqua","amico","fatto","gente","amore","storia","aria","forza","testa","ragione","mare","mese","capo","luce","sole","famiglia","piede","persona","via","signora","governo","senso","opera","prodotto","festa","gioco","prova","campagna","fiore","sala","misura","posizione","natura","ufficio","specie","successo","zona","fuoco","soldato","vista","libertà","risultato","importanza","dubbio","ricerca","dio","figura","piazza","questione","nemico","pena","motivo","esperienza","ricordo","albero","politica","processo","vino","porta","sud","sogno","cane","isola","movimento","mente","occasione","prezzo","causa","periodo","sviluppo","sorella","effetto","giardino","attività","volontà","volto","base","carattere","coscienza","guardia","memoria","terreno","animale","direzione","eccellenza","malattia","scienza","funzione","conseguenza","parete","dente","distanza","gusto","impressione","istituto","quadro","attenzione","autore","difficoltà","passione","commissione","dito","inizio","programma","spettacolo","titolo","comunicazione","fenomeno","maggio","stampa","denaro","destino","dovere","ferro","punta","regno","epoca","luna","provincia","voglia","differenza","controllo","grazia","passato","spazio","stella","corsa","erba","massa","origine","polizia","soluzione","chilometro","madre","paura","cuore","idea","fondo","esempio","ordine","posto","campo","faccia","moglie","ragazzo","bisogno","cielo","letto","fronte","conto","corpo","numero","ministro","problema","chiesa","braccio","bambino","pensiero","pace","morte","fine","forma","resto","popolo","società","studio","legge","libro","figlia","luogo","condizione","professore","marito","verità","segno","diritto","lettera","ragazza","scuola","camera","gruppo","lira","discorso","centro","secolo","mezzo","tipo","colpa","rispetto","scena","don","oggetto","possibilità","mamma","presenza","teatro","caffè","principio","termine","lingua","pezzo","capello","regione","monte","università","treno","inverno","nazione","pagina","scopo","compagno","necessità","potere","musica","dottore","sentimento","nave","pietra","produzione","speranza","dolore","carne","generale","proposito","elemento","stazione","materia","scala","maniera","arma","autorità","gamba","patria","albergo","gioia","argomento","sguardo","relazione","classe","battaglia","viso","gesto","mattino","opinione","ponte","sorriso","frase","limite","ritorno","bosco","esame","lato","operazione","pranzo","costa","prato","repubblica","valle","nord","fatica","odore","articolo","costruzione","rivoluzione","zia","confronto","potenza","sforzo","sicurezza","ufficiale","crisi","cucina","gatto","pietà","territorio","attimo","civiltà","contatto","errore","fretta","intenzione","cultura","giudizio","spesa","aiuto","ambiente","animo","bestia","cortile","pelle","proposta","riva","segretario","abito","chiave","corrente","operaio","corso","finestra","arte","sistema","piano","bocca","anima","palazzo","passo","giornata","servizio","rapporto","milione","stanza","valore","colpo","sangue","interesse","spalla","silenzio","signorina","ombra","azione","vento","mattina","colore","presidente","consiglio","principe","viaggio","genere","giornale","spirito","cavallo","muro","situazione","linea","giro","automobile","atto","aspetto","età","fortuna","oro","partito","macchina","carta","minuto","tratto","settimana","notizia","fratello","realtà","industria","piacere","maestro","personaggio","pomeriggio","fianco","bambina","bellezza","domanda","pianta","pubblico","sede","affare","bene","metà","papà","fiume","lotta","mercato","angolo","compagnia","espressione","labbro","villa","desiderio","serie","visita","coraggio","direttore","esercito","grado","padrone","risposta","tavola","immagine","montagna","energia","fede","pane","seguito","estate","film","frutto","onore","pericolo","scrittore","collina","zio","difesa","metro","collo","cura","disposizione","Domenica","giovanotto","poeta","stagione","peso","tono","croce","decisione","poesia","fiducia","filo","folla","qualità","roba","conoscenza","favore","popolazione","strumento","uso","vestito","commercio","fabbrica","giugno","giustizia","avvocato","messa","orecchio","sonno","congresso","porto","calcio","fantasia","matrimonio","medico","ospedale","pianura","tavolo","fame","latte","merito","attore","ricchezza","sacrificio","atteggiamento","concetto","mestiere","attesa","bagno","foglia","istante","lago","questo","quello","più","tutto","suo","altro","mio","quale","tanto","grande","poco","molto","nostro","stesso","primo","loro","ogni","proprio","solo","quanto","bello","qualche","nuovo","certo","vero","buono","tuo","nessuno","alcuno","italiano","ultimo","vecchio","piccolo","troppo","tale","giovane","alto","vostro","diverso","meglio","lungo","povero","maggiore","secondo","lontano","vicino","possibile","caro","pieno","nero","particolare","bianco","forte","politico","attuale","latino","impossibile","sereno","puro","normale","perfetto","caratteristico","russo","continuo","stupido","estremo","grigio","reale","interessante","medesimo","religioso","ampio","biondo","attento","enorme","sottile","triste","minimo","privato","rapido","quarto","diretto","nobile","parecchio","pericoloso","giallo","pazzo","sacro","comodo","elettrico","assoluto","cristiano","antico","rosso","chiaro","unico","sicuro","importante","vario","giusto","francese","vivo","ricco","grosso","necessario","libero","nazionale","basso","semplice","grave","comune","freddo","economico","felice","difficile","tedesco","breve","pronto","serio","presente","migliore","facile","terzo","caldo","estero","largo","pricipale","verde","romano","umano","inutile","moderno","numeroso","simile","fresco","militare","americano","vuoto","ciascuno","tranquillo","contento","storico","superiore","inglese","fermo","solito","buio","strano","noto","prossimo","profondo","sociale","cattivo","massimo","intero","uguale","bravo","brutto","preciso","qualsiasi","improvviso","famoso","straniero","civile","internazionale","interno","vasto","segreto","greco","naturale","sinistro","duro","stanco","azzurro","recente","notevole","cittadino","destro","europeo","zitto","medio","qualunque","straordinario","nudo","futuro","cattolico","capace","industriale","personale","centrale","tecnico","dolce","leggero","morale","utile","contrario","speciale","peggio","minore","contadino","essere","avere","dire","volere","sapere","stare","vedere","andare","venire","dare","parlare","trovare","sentire","lasciare","prendere","guardare","mettere","pensare","passare","credere","portare","parere","tornare","sembrare","tenere","capire","morire","chiamare","conoscere","rimanere","chiedere","cercare","entrare","vivere","aprire","uscire","ricordare","bisognare","cominciare","rispondere","aspettare","riuscire","chiudere","finire","arrivare","scrivere","diventare","restare","seguire","bastare","perdere","rendere","correre","salvare","vestire","costruire","camminare","ritrovare","durare","accendere","evitare","immaginare","ridurre","contenere","fissare","costringere","abbandonare","attendere","preferire","scegliere","avvertire","proporre","temere","esprimere","spingere","salutare","udire","difendere","dirigere","cantare","sorgere","assicurare","assumere","tendere","dividere","scusare","mantenere","ritenere","concludere","saltare","stabilire","appartenere","possedere","risultare","suonare","coprire","insegnare","affermare","rivelare","conservare","risolvere","concedere","limitare","abitare","convincere","comprare","legare","sostenere","nascere","presentare","trattare","continuare","partire","servire","giungere","fermare","apparire","amare","esistere","intendere","salire","mancare","ridere","lavorare","alzare","riconoscere","sedere","leggere","cadere","mangiare","dormire","raggiungere","comprendere","scendere","compiere","toccare","considerare","muovere","stringere","mandare","domandare","ascoltare","decidere","ricevere","osservare","permettere","avvenire","spiegare","raccogliere","ottenere","offrire","mostrare","accompagnare","dimenticare","pregare","raccontare","bere","ritornare","cambiare","dimostrare","sperare","sposare","ammettere","fuggire","liberare","riferire","svegliare","capitare","posare","impedire","gettare","vendere","distinguere","offendere","rimettere","rompere","godere","imporre","significare","desiderare","divertire","volgere","giudicare","produrre","avvicinare","diffondere","ordinare","invitare","discutere","sbagliare","badare","tagliare","pubblicare","attaccare","imparare","prevedere","scappare","spegnere","annunciare","baciare","esporre","attraversare","fornire","segnare","superare","rivedere","allontanare","ammazzare","accogliere","voltare","preoccupare","provocare","riempire","partecipare","piantare","rientrare","richiedere","nascondere","ripetere","scoprire","preparare","scorrere","rappresentare","riprendere","costituire","incontrare","valere","accorgersi","provare","formare","uccidere","tirare","togliere","notare","aggiungere","succedere","pagare","tentare","accadere","creare","importare","pesare","usare","accettare","indicare","buttare","battere","interessare","sorridere","condurre","disporre","unire","aiutare","piangere","girare","levare","soffrire","recare","riguardare","rivolgere","tacere","occorrere","porre","vincere","svolgere","studiare","crescere","divenire","gridare","dichiarare","contare","giocare","assistere","aumentare","lanciare","determinare","scherzare","elevare","promettere","scomparire","trarre","distruggere","meritare","dedicare","iniziare","sorprendere","trasformare","confessare","arrestare","ringraziare","riunire","volare","fondare","guidare","ferire","opporre","procedere","smettere","consentire","innamorare","organizzare","rifiutare","riportare","dipendere","provvedere","trascinare","fumare","scoppiare","sognare","appoggiare","armare","celebrare","descrivere","resistere","bruciare","colpire","estendere","staccare","affrontare","avanzare","comporre","escludere","figurare","insistere","il","di","e","a","un","in","che","non","si","da","lo","per","con","ma","come","su","mi","anche","o","io","se","perché","li","ci","ne","lei","ancora","tu","lui","senza","cui","chi","già","dopo","uno","noi","dove","qui","no","allora","tra","vi","fra","prima","forse","sì","sotto","voi","fino","oggi","quasi","pure","egli","mentre","contro","invece","esso","là","però","né","subito","verso","ciò","ecco","essa","fuori","meno","adesso","niente","cioè","male","nulla","ah","oh","quindi","appena","insieme","dunque","dentro","durante","almeno","anzi","oramai","oltre","intorno","sopra","dietro","davanti","soltanto","infatti","qualcosa","spesso","accordo","ieri","davvero","lì","qualcuno","avanti","assai","presto","qua","domani","circa","giù","soprattutto","nemmeno","grazie","tuttavia","appunto","neppure","eh","veramente","tardi","insomma","presso","intanto","neanche","piuttosto","stasera","perciò","naturalmente","accanto","eppure","eccetera","finalmente","infine","poiché","comunque","dinanzi","abbastanza","peccato","certamente","coloro","attorno","magari","oppure","inoltre","indietro","addosso","addirittura","finché","perfino","affatto","stamattina","completamente","probabilmente","chissà","sino","ognuno","entro"]
+  let trie: Trie = new Trie()
+  for (let s of parole) {
+      trie.insert(s)
+  }
+  // ricerca di parole nel trie
+  console.log("Ricerca parole:")
+  console.log("\talbero ->",trie.lookup("albero"))
+  console.log("\tarbero ->",trie.lookup("arbero"))
+  // visualizzazione dimensione trie
+  console.log("Statistiche:")
+  console.log("\tparole inserite =",parole.length)
+  console.log("\tdimensione =",trie.size)
+
+  // ricerca delle parole che cominciano per "ab"
+  console.log("Lista parole con prefisso 'cos'")
+  for (let s of trie.prefixSearch("cos")) {
+      console.log("\t-",s)
+  }
