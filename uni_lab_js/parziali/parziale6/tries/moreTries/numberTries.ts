@@ -23,8 +23,7 @@ class Trie<T> {
       current = current.children.get(c)! // L'operatore "!" asserisce che "node.children.get(c)" (di tipo TrieNode | undefined) non è undefined, permettendone l'assegnazione a "node" (di tipo TrieNode)
     }       // e passiamo al successivo c, i, a, o,
     if (current.value == undefined) {//qua SE è lundefined da come parola.perche poterbbe
-      //ma è per forza una nuova parola okay, ma se ho una parola composta prima e poi una semplice,non viene riconosciuta la nuova parola
-      // transformer, trans, essendo che in s,N io quando accedo il valore non è undefined. ed invece si è undefined. okay ho capito incremento, il valore c'è solo nella cella di memoria successiva all'ultima .
+      //controllo ìx evitare di contare una paroola uguale 2 fvolte
       this.n++
     }
     current.value = value;
@@ -64,59 +63,68 @@ class Trie<T> {
   get size(): number { return this.n }
 
   Delete(key: string) {
-    return this._delete(this.root, key)
+    let removed = this._delete(this.root,key,0)
+    if(removed)this.n--;
+    return removed
   }
-  _delete(node: Node<T>, key: string) {
-    //devi fare un controllo:
-    if (key.length == 0)
-    {//condizione in cui è terminata gli resituiamo [], pero, dobbiamo guardare se node ha dei children in quel caso non possiamo //trans transformere, non possiamo togliere trans
-      if (node.children.size == 0)
-        return true; // possiamo eliminare
-      else return false;
-    }
-    let nextchar = key.slice(0, 1)
-    console.log(nextchar)
-    if (!node.children.has(nextchar))
-      return false; // non esiste la stringa.
-    let next:Node<T> = node.children.get(nextchar)!
-
-
-    if (this._delete(next, key.slice(1)))// se ricevo true posso cancellare
+  _delete(node: Node<T>, key: string,depth:number) :boolean{
+    if(key.length === depth)//fase finale
     {
-      // se ricevo true da delete posso cancellare , io cancello quel carattere , e se dopo il controllo ci sono altri figli pero devo restituire false.
-      node.children.delete(nextchar)
-      this.n--
-      if (node.children.size > 0)
-        return false
-      return true
+      if(node.value == undefined) return false;//parola non esisteva
+      node.value = undefined;
+      // this.n -- a quanto pare qua non va bene
+      return true;// cancellazione okay
+    } // fase finale
+    
+    //fawse iniziale1
+    if(key[depth] === undefined) // type guard 
+       return false; // questo  non DEVE RISULTARE ERRORE
+    let c :string= key[depth] // sennò questo dava errore
+
+    let child = node.children.get(c)
+    if(child === undefined )return false;
+
+    let deleted = this._delete(child,key,depth+1)
+
+    if(deleted){
+      if(child.value === undefined && child.children.size == 0)
+            node.children.delete(c)
     }
-    else return false
+    return deleted
   }
-  reduce(f:Function, initialValue:number):number
-  {
-    let curr = this.root;
-    for (let c of this.root.children)
-    {
-      initialValue += reduce(f,initialValue)
-      }
-  }
-}
+  
 
-let parole :string[] = ["cosa","coso","ciao","altro"]
-let trie: Trie<number> = new Trie() // perche per forza number? T non funziona..
-for (let s of parole) {
-  trie.insert(s, s.length)
 }
-console.log("Lista parole con prefisso 'c'")
-for (let s of trie.prefixSearch("")) {
-    console.log("\t-",s)
-}
+let testTrie = new Trie<number>();
+testTrie.insert("co", 2);
+testTrie.insert("coso", 4);
+testTrie.insert("trans", 5);
+testTrie.insert("transformer", 11);
 
-console.log("ris ", trie.Delete("ciao"))
+console.log("--- TEST 1: Eliminare un prefisso ---");
+testTrie.Delete("trans");
+console.log("Lookup 'trans' (dovrebbe essere undefined):", testTrie.lookup("trans")); 
+// Fallirà: restituirà 5. La parola non viene rimossa.
 
-console.log("Lista parole con prefisso 'c'")
-console.log(trie.lookup("ciao"))
-console.log("Lista parole con prefisso 'c'")
-for (let s of trie.prefixSearch("")) {
-    console.log("\t-",s)
-}
+console.log("\n--- TEST 2: Conteggio (n) errato ---");
+let testTrie2 = new Trie<number>();
+testTrie2.insert("ciao", 4);
+testTrie2.Delete("ciao");
+console.log("Size (dovrebbe essere 0):", testTrie2.size); 
+// Fallirà: restituirà un numero negativo o errato.
+
+console.log("\n--- TEST 3: Eliminazione distruttiva di parole collaterali ---");
+let testTrie3 = new Trie<number>();
+testTrie3.insert("co", 2);
+testTrie3.insert("coso", 4);
+testTrie3.Delete("coso");
+console.log("Lookup 'co' (dovrebbe restituire 2):", testTrie3.lookup("co")); 
+// Fallirà: restituirà undefined. "coso" elimina anche "co".
+// 
+/*
+Esercizio 2 — keys(): Generator<string>
+Restituisce tutte le chiavi nel trie (come prefixSearch("") ma senza i valori).
+Esercizio 3 — has(key): boolean
+Come lookup ma restituisce solo true/false. Poi riscrivilo usando lookup in una riga.
+Esercizio 4 — longestPrefix(query)
+Dato "trasformatore", restituisce la parola più lunga nel trie che ne è prefisso (es. "trasf" se esiste)*/
