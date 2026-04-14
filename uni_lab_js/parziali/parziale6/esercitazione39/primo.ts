@@ -25,40 +25,120 @@ class linearClassifier // = s = w1·x1 + ... + wn·xn + bias
     return this.score(x) >= 0 ? 1 : 0 // se ritorna uno è buono, se ritorna 0 boh // diciamo che equivale alla decisione. si o no
   }
 }
-class Perceptron extends linearClassifier
-{
-  learnRate :number|undefined
-  constructor(bias:number,weights:number[],learnRate?: number)
-  {
-    super(bias,weights);
-    if(learnRate) this.learnRate = 5
+class Perceptron extends linearClassifier {
+  learnRate: number
+  constructor(bias: number, weights: number[], learnRate: number=1 ) {
+    super(bias, weights);
+    this.learnRate = learnRate
   }
-  // accuracy(dataset: Dataset<T>)
-  // {
-  //   //restituisce la frazione di esempi del dataset che sono classificati correttamente
-  //   //itero su ogni data set.
-  //   for (let [X, C] of dataset)
-  //   {
-  //     console.log(X, C)
-  //     if(this.predic(X) == )
-  //     }
 
+  accuracy(dataset: Dataset<number>): number {
+      let correct = 0
+
+      for (const [sample, label] of dataset) {
+          if (this.predic(sample) === label) {
+              correct++
+          }
+      }
+      return correct / dataset.length
   }
+  train(dataset:Dataset<number>, epochs:number = 5)
+  {
+
+    for (let j = 0; j < epochs; j++) // perche una in meno?
+      {
+            for (let [X, C] of dataset)
+            {
+              let ris = this.predic(X);
+              let error = C - ris;
+              if (error !== 0)
+              {
+                for (let i = 0; i < this.weights.length; i++)//nb i < this.weights length i <= this.weights lenght -
+                  this.weights[i]! += this.learnRate * error * X[i]!// nbbbnb nota mooolto bene quesot è l'array dei samplesss
+
+                this.bias += this.learnRate * error
+              }
+              // console.log(this.accuracy(dataset), this.bias)
+            }
+      }
+  }
+
+}
+function evaluateClassifier(
+    clf: linearClassifier,
+    dataset: Dataset<number>
+): number {
+    let correct = 0
+
+    for (const [sample, label] of dataset) {
+        const pred = clf.predic(sample)
+
+        console.log(
+            `sample=${JSON.stringify(sample)} | pred=${Outcome[pred]} | expected=${Outcome[label]}`
+        )
+
+        if (pred === label) {
+            correct++
+        }
+    }
+
+    const acc = correct / dataset.length
+    console.log(`Accuracy = ${correct}/${dataset.length} = ${acc}`)
+    return acc
+}
 enum Outcome
 {
-  silence, //0
-  fire // 1
+  Silence, //0
+  Fire // 1
 }
 type DataPoint<T> = [sample: T[], label: Outcome]// molto piu semplice. meno generico
 //piu preciso
 type Dataset<T> = DataPoint<T>[] // semplicemente un array di data point
-const DataSetAnd: Dataset<number> = [
+const datasetAND: Dataset<number> = [
   [[0, 0], 0], // boh essendo che lo stai dichiarando a mano dovresti saperlo trimone.
   [[0, 1], 0],
   [[1, 0], 0],
   [[1, 1], 1]
 ];
+const datasetOR: Dataset<number> = [
+    [[0, 0], Outcome.Silence],
+    [[0, 1], Outcome.Fire],
+    [[1, 0], Outcome.Fire],
+    [[1, 1], Outcome.Fire]
+]
 
-let test: linearClassifier = new linearClassifier(-2, [1,1]) //W O W
 
-DataSetAnd.forEach(([X, C]) => console.log(`risultato campione:${X}: ${test.predic(X)} atteso: ${C}`))
+let clf = new linearClassifier( -1.5,[1, 1])
+// DataSetAnd.forEach(([X, C]) => console.log(`risultato campione:${X}: ${clf.predic(X)} atteso: ${C}`))
+
+
+console.log("=== Esercizio 2: valutazione di [1,1], bias=1 su datasetAND ===")
+const wrongAND = new linearClassifier( 1,[1, 1])
+evaluateClassifier(wrongAND, datasetAND)
+
+// Un classificatore corretto per AND
+console.log("\n=== Classificatore corretto per AND ===")
+const correctAND = new linearClassifier( -1.5,[1, 1])
+evaluateClassifier(correctAND, datasetAND)
+
+
+
+console.log("\n=== Perceptron su datasetAND, partendo da [1,1], bias=1 ===")
+const pAND = new Perceptron( 1,[1, 1])
+
+console.log("Accuracy iniziale AND:", pAND.accuracy(datasetAND))
+pAND.train(datasetAND)
+console.log("Accuracy finale AND:", pAND.accuracy(datasetAND))
+
+console.log("\nPredizioni finali su datasetAND:")
+evaluateClassifier(pAND, datasetAND)
+
+console.log("\n=== Perceptron su datasetOR, partendo da [0,0], bias=0 ===")
+const pOR = new Perceptron( 0,[0, 0])
+
+console.log("Accuracy iniziale OR:", pOR.accuracy(datasetOR))
+pOR.train(datasetOR)
+console.log("Accuracy finale OR:", pOR.accuracy(datasetOR))
+
+console.log("\nPredizioni finali su datasetOR:")
+evaluateClassifier(pOR, datasetOR)
