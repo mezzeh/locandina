@@ -19,7 +19,8 @@ class Trie {
             current = current.children.get(c); // L'operatore "!" asserisce che "node.children.get(c)" (di tipo TrieNode | undefined) non è undefined, permettendone l'assegnazione a "node" (di tipo TrieNode)
         } // e passiamo al successivo c, i, a, o,
         if (current.value == undefined) { //qua SE è lundefined da come parola.perche poterbbe
-            //controllo ìx evitare di contare una paroola uguale 2 fvolte
+            //ma è per forza una nuova parola okay, ma se ho una parola composta prima e poi una semplice,non viene riconosciuta la nuova parola
+            // transformer, trans, essendo che in s,N io quando accedo il valore non è undefined. ed invece si è undefined. okay ho capito incremento, il valore c'è solo nella cella di memoria successiva all'ultima .
             this.n++;
         }
         current.value = value;
@@ -55,56 +56,115 @@ class Trie {
     }
     get size() { return this.n; }
     Delete(key) {
-        let removed = this._delete(this.root, key, 0);
-        if (removed)
-            this.n--;
-        return removed;
+        return this._delete(this.root, key);
     }
-    _delete(node, key, depth) {
-        if (key.length === depth) //fase finale
-         {
-            if (node.value == undefined)
-                return false; //parola non esisteva
-            node.value = undefined;
-            // this.n -- a quanto pare qua non va bene
-            return true; // cancellazione okay
-        } // fase finale
-        //fawse iniziale1
-        if (key[depth] === undefined) // type guard 
-            return false; // questo  non DEVE RISULTARE ERRORE
-        let c = key[depth]; // sennò questo dava errore
-        let child = node.children.get(c);
-        if (child === undefined)
-            return false;
-        let deleted = this._delete(child, key, depth + 1);
-        if (deleted) {
-            if (child.value === undefined && child.children.size == 0)
-                node.children.delete(c);
+    _delete(node, key) {
+        //devi fare un controllo:
+        if (key.length == 0) { //condizione in cui è terminata gli resituiamo [], pero, dobbiamo guardare se node ha dei children in quel caso non possiamo //trans transformere, non possiamo togliere trans
+            if (node.children.size == 0)
+                return true; // possiamo eliminare
+            else
+                return false;
         }
-        return deleted;
+        let nextchar = key.slice(0, 1);
+        console.log(nextchar);
+        if (!node.children.has(nextchar))
+            return false; // non esiste la stringa.
+        let next = node.children.get(nextchar);
+        if (this._delete(next, key.slice(1))) // se ricevo true posso cancellare
+         {
+            // se ricevo true da delete posso cancellare , io cancello quel carattere , e se dopo il controllo ci sono altri figli pero devo restituire false.
+            node.children.delete(nextchar);
+            this.n--;
+            if (node.children.size > 0)
+                return false;
+            return true;
+        }
+        else
+            return false;
+    }
+    keys(node, parola) {
+        //semplicemente appena arriva ad un valore definito fa un console.log oppure restituisce un array
+        let arr = [];
+        if (node.value !== undefined)
+            arr.push(parola);
+        for (let [char, nodo] of node.children) {
+            arr.push(...this.keys(nodo, parola + char)); // trucchetto per non usare concat NB concat restituisce un nuovo array
+        }
+        return arr;
+    }
+    *genKeys(node, parola) {
+        if (node.value !== undefined)
+            yield parola;
+        for (let [char, nodo] of node.children) {
+            yield* this.genKeys(nodo, parola + char);
+        }
+    }
+    reduce(f, initialValue) {
+        return this._reduce(this.root, f, initialValue);
+    }
+    _reduce(node, f, acc) {
+        if (node.value !== undefined)
+            acc = f(acc, node.value);
+        for (let [, child] of node.children)
+            acc = this._reduce(child, f, acc);
+        return acc;
+    }
+    //qua non so se ce bisogno di ricorsione, la ricorsione mi serve quando?
+    has(key) {
+        let curr = this.root;
+        for (let el of key) {
+            if (!curr.children.has(el))
+                return false;
+            curr = curr.children.get(el);
+        }
+        if (curr.value !== undefined)
+            return true; // significa che era effettivamente una sotto parola.
+        return false;
+    }
+    longestPrefix(prefix) {
+        let curr = this.root;
+        for (let el of prefix) {
+            if (!curr.children.has(el))
+                return undefined;
+            curr = curr.children.get(el);
+        } //due funzioni una per arrivare al prefisso l'altra per trovare la piu grande.
+        let ris = this._longestPrefix(curr, prefix);
+        return ris === "" ? undefined : ris; // il controllo lo faccio qua
+    }
+    _longestPrefix(node, prefix) {
+        let max = ""; // non possiamo assegnarlo  a prefix. perche potrebbe non essere una parola // per preservare il dato
+        if (node.value !== undefined)
+            max = prefix; // ricordiamoci che in questo momento prefix è la nostra parola.
+        // ora vediamo come possiamo iterare.
+        for (let [char, nodo] of node.children) {
+            let ris = this._longestPrefix(nodo, prefix + char); // se non ci sono parole è undefined
+            if (ris.length > max.length)
+                max = ris;
+        }
+        return max;
     }
 }
-let testTrie = new Trie();
-testTrie.insert("co", 2);
-testTrie.insert("coso", 4);
-testTrie.insert("trans", 5);
-testTrie.insert("transformer", 11);
-console.log("--- TEST 1: Eliminare un prefisso ---");
-testTrie.Delete("trans");
-console.log("Lookup 'trans' (dovrebbe essere undefined):", testTrie.lookup("trans"));
-// Fallirà: restituirà 5. La parola non viene rimossa.
-console.log("\n--- TEST 2: Conteggio (n) errato ---");
-let testTrie2 = new Trie();
-testTrie2.insert("ciao", 4);
-testTrie2.Delete("ciao");
-console.log("Size (dovrebbe essere 0):", testTrie2.size);
-// Fallirà: restituirà un numero negativo o errato.
-console.log("\n--- TEST 3: Eliminazione distruttiva di parole collaterali ---");
-let testTrie3 = new Trie();
-testTrie3.insert("co", 2);
-testTrie3.insert("coso", 4);
-testTrie3.Delete("coso");
-console.log("Lookup 'co' (dovrebbe restituire 2):", testTrie3.lookup("co"));
+let parole = ["cosa", "coso", "ciao", "altro"];
+let trie = new Trie(); // perche per forza number? T non funziona..
+for (let s of parole) {
+    trie.insert(s, s.length);
+}
+//console.log(trie.keys(trie.root,""))
+for (let s of trie.genKeys(trie.root, "")) {
+    console.log("\t-", s);
+}
+console.log(trie.longestPrefix(""));
 export {};
-// Fallirà: restituirà undefined. "coso" elimina anche "co".
+// console.log("Lista parole con prefisso 'c'")
+// for (let s of trie.prefixSearch("")) {
+//     console.log("\t-",s)
+// }
+// console.log("ris ", trie.Delete("ciao"))
+// console.log("Lista parole con prefisso 'c'")
+// console.log(trie.lookup("ciao"))
+// console.log("Lista parole con prefisso 'c'")
+// for (let s of trie.prefixSearch("")) {
+//     console.log("\t-",s)
+// }
 //# sourceMappingURL=numberTries.js.map

@@ -1,4 +1,4 @@
-/* 
+/*
 ESERCIZIO 4: Trie con valori
 Modificare la classe Trie per trasformarla in una struttura dati che funzioni come mappa chiave-valore, dove le chiavi sono stringhe e i valori sono di tipo generico T. In particolare, aggiornare i seguenti metodi:
 - insert(key, value): inserisce l’associazione key → value nel trie, eventualmente aggiornando il valore esistente per key.
@@ -66,17 +66,24 @@ class Trie<T> {
     /* ESERCIZIO 5: Reduce su valori del trie.
     Estendere la classe Trie<T> aggiungendo un metodo reduce(f, initialValue) che restituisce il risultato dell’applicazione della funzione di riduzione f(accumulator, currentValue) a ciascun valore di tipo T memorizzato nel trie, usando initialValue come valore iniziale dell’accumulatore.
     */
-    reduce<U>(f: (accumulator: U, currentValue: T) => U, initialValue: U): U {
-        return this.reduceAux(this.root, f, initialValue)
+  reduce<U>(f: (accumulator: U, currentValue: T) => U, initialValue: U): U { // per definire il tipo di funzione generico definiamo <U> ed f: che prendera un parametro,
+      //accumulatore di tipo U , un valore corrente di tipo T e => restituire un valore di ipo U: questo banalmente perche l'accumulatore è di tipo U , initial value ovviamente di tipo U , non scontato
+      // avrei potutot dire U e non ìperche si accumula sull'initial value U ) ovviamente restituisce U
+        return this.reduceAux(this.root, f, initialValue)//chiama una funzione
     }
 
-    private reduceAux<U>(node: TrieNode<T>, f: (accumulator: U, currentValue: T) => U, accumulator: U): U {
-        if (node.value !== undefined)
-            accumulator = f(accumulator, node.value)
-        for (let child of node.children.values())
-            accumulator = this.reduceAux(child, f, accumulator)
-        return accumulator
+    private reduceAux<U>(node: TrieNode<T>, f: (accumulator: U, currentValue: T) => U, accumulator: U): U {//gli viene passata la radice, la funzione , e l'uinitial value
+        if (node.value !== undefined) // se è definito quindi una parola terminale
+            accumulator = f(accumulator, node.value) // accumulatore prende il risultato di f , dando l'accumulatore ed il valore della parola
+        for (let child of node.children.values()) // per ogni figlio (perche chldren.value e non semplicemente values. ricorda la struttura: <string, TrieNode<T>> i values sono i nodi. se devi chiamarli tutti fai cosi non ti serve il carattere! senno avresti usato [char,node]
+            accumulator = this.reduceAux(child, f, accumulator) // ccaccumulutaro type U
+        return accumulator // finito di iterare ricorsioni e dato il valore
     }
+  /*keys(): Generator<string>
+  Restituisce tutte le chiavi nel trie (come prefixSearch("") ma senza i valori).
+ */
+ //output di tutte le stringhe
+
 }
 
 // ESEMPI DI TEST
