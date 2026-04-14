@@ -1,10 +1,10 @@
-class linearFunction // = s = w1·x1 + ... + wn·xn + bias
+class linearClassifier // = s = w1·x1 + ... + wn·xn + bias
 {
   protected bias: number;
   protected weights: number[]
   constructor(bias: number, weights: number[]) {
     this.bias = bias;
-    this.weights = weights
+    this.weights = [...weights] // perche lo spread?
   }
   /*La classe deve supportare due metodi che prendono in input un array numerico x:
   ● score(x): restituisce il valore di s
@@ -13,59 +13,52 @@ class linearFunction // = s = w1·x1 + ... + wn·xn + bias
   {
     if (x.length != this.weights.length)
       throw new TypeError("dimensione dei pesi differente")
-    return x.reduce((acc: number, curr: number, i) => acc = curr * this.weights[i],0)+ this.bias
+
+    let s = this.bias;
+    for (let i = 0; i < x.length; i++) {
+       s += this.weights[i]! * x[i]!;
+    };
+    return s;
   }
   predic(x: number[]): number {
-    if (x.length != this.weights.length)
-      throw new TypeError("dimensione dei pesi differente")
-    let ris = x.reduce((acc: number, curr: number, i) => acc += curr * this.weights[i],0) + this.bias
-    return ris > 0 ? 1 : 0
-  }
 
+    return this.score(x) >= 0 ? 1 : 0 // se ritorna uno è buono, se ritorna 0 boh // diciamo che equivale alla decisione. si o no
+  }
 }
-
-  // Blocco di test per la classe linearFunction
-
-  const testCases = [
-    { id: 2, weights: [2, -1, 3], bias: 1, x: [1, 2, 1], expectedScore: 4, expectedPredict: 1 },
-    { id: 3, weights: [2, -1, 3], bias: -10, x: [1, 2, 1], expectedScore: -7, expectedPredict: 0 },
-    { id: 4, weights: [1, -1], bias: 0, x: [1, 1], expectedScore: 0, expectedPredict: 0 },
-    { id: 5, weights: [0, 0, 0], bias: 5, x: [10, 20, 30], expectedScore: 5, expectedPredict: 1 },
-    { id: 6, weights: [1.5, 2.5], bias: 0.5, x: [2, 2], expectedScore: 8.5, expectedPredict: 1 }
-  ];
-
-  console.log("--- Esecuzione Test Logici ---");
-  testCases.forEach(tc => {
-    const lf = new linearFunction(tc.bias, tc.weights);
-    const score = lf.score(tc.x);
-    const predict = lf.predic(tc.x);
-
-    const scorePass = score === tc.expectedScore;
-    const predictPass = predict === tc.expectedPredict;
-
-    if (scorePass && predictPass) {
-      console.log(`Test ${tc.id}: PASSATO`);
-    } else {
-      console.log(`Test ${tc.id}: FALLITO`);
-      if (!scorePass) console.log(`  -> Errore Score: atteso ${tc.expectedScore}, ottenuto ${score}`);
-      if (!predictPass) console.log(`  -> Errore Predict: atteso ${tc.expectedPredict}, ottenuto ${predict}`);
-    }
-  });
-
-  console.log("--- Esecuzione Test Eccezioni ---");
-  try {
-    const lfError = new linearFunction(0, [1, 2]);
-    lfError.score([1]); // Input di dimensione errata
-    console.log("Test 1: FALLITO (Il codice non ha bloccato l'array di dimensione errata)");
-  } catch (e) {
-    if (e instanceof TypeError) {
-      console.log("Test 1: PASSATO (TypeError intercettato correttamente)");
-    } else {
-
-      console.log(`Test 1: FALLITO (Eccezione imprevista: ${getErrorMessage(e)})`);
-    }
-    function getErrorMessage(error: unknown) {
-	if (error instanceof Error) return error.message
-	return String(error)
-    }
+class Perceptron extends linearClassifier
+{
+  learnRate :number|undefined
+  constructor(bias:number,weights:number[],learnRate?: number)
+  {
+    super(bias,weights);
+    if(learnRate) this.learnRate = 5
   }
+  // accuracy(dataset: Dataset<T>)
+  // {
+  //   //restituisce la frazione di esempi del dataset che sono classificati correttamente
+  //   //itero su ogni data set.
+  //   for (let [X, C] of dataset)
+  //   {
+  //     console.log(X, C)
+  //     if(this.predic(X) == )
+  //     }
+
+  }
+enum Outcome
+{
+  silence, //0
+  fire // 1
+}
+type DataPoint<T> = [sample: T[], label: Outcome]// molto piu semplice. meno generico
+//piu preciso
+type Dataset<T> = DataPoint<T>[] // semplicemente un array di data point
+const DataSetAnd: Dataset<number> = [
+  [[0, 0], 0], // boh essendo che lo stai dichiarando a mano dovresti saperlo trimone.
+  [[0, 1], 0],
+  [[1, 0], 0],
+  [[1, 1], 1]
+];
+
+let test: linearClassifier = new linearClassifier(-2, [1,1]) //W O W
+
+DataSetAnd.forEach(([X, C]) => console.log(`risultato campione:${X}: ${test.predic(X)} atteso: ${C}`))
