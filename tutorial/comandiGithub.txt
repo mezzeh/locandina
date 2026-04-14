@@ -13,7 +13,7 @@ git commmit -m "descrizione sintetica di cosa hai cambiato"
 
 3)mandi tutto online
 git push
-
+d
 utili:
 git status , da usare prima di add o commit
 git log --oneline
