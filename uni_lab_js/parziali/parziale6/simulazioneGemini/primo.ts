@@ -157,3 +157,4 @@ rm1.insertPod();
 let rm2 = new SmartCoffeMachine("A2");
 let arr = readyMachines([rm1, rm2]);
 test("readyMachines filtra correttamente", arr.length === 1 && JSON.parse(arr[0]!.read()).serial === "A1");
+//test
