@@ -1,0 +1,236 @@
+:root {
+    /* Tema Dark/Cyber */
+    --bg-overlay: rgba(10, 15, 30, 0.85); /* Sfondo semi-trasparente scuro */
+    --text-main: #e0e6ed;
+    --text-muted: #a0aec0;
+    --card-bg: rgba(20, 25, 40, 0.7); /* Card semi-trasparenti */
+    --card-border: rgba(0, 195, 255, 0.3);
+    --primary: #00c3ff; /* Azzurro neon */
+    --sold-bg: rgba(40, 40, 40, 0.8);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: var(--text-main);
+    line-height: 1.6;
+    
+    /* Impostazione dello sfondo con l'immagine neurale */
+    background-image: url('background.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Mantiene lo sfondo fisso durante lo scroll */
+    background-repeat: no-repeat;
+    background-color: #050a15; /* Fallback se l'immagine non carica */
+}
+
+/* Layer semi-trasparente sopra l'immagine per migliorare la leggibilità */
+.overlay {
+    background-color: var(--bg-overlay);
+    min-height: 100vh;
+    width: 100%;
+}
+
+header {
+    text-align: center;
+    padding: 3rem 1rem 2rem;
+    background: linear-gradient(to bottom, rgba(0, 10, 20, 0.9), transparent);
+}
+
+header h1 {
+    font-size: 2.5rem;
+    color: var(--primary);
+    text-shadow: 0 0 10px rgba(0, 195, 255, 0.5);
+    margin-bottom: 0.5rem;
+}
+
+header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+section {
+    margin-bottom: 3rem;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(10px); /* Effetto vetro per browser supportati */
+    -webkit-backdrop-filter: blur(10px); /* Per Safari/iOS */
+}
+
+h2 {
+    color: var(--primary);
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+/* Tipografia */
+ul {
+    list-style-position: inside;
+    color: var(--text-muted);
+}
+
+ul li {
+    margin-bottom: 0.5rem;
+}
+
+/* Tabella Responsive */
+.table-container {
+    overflow-x: auto; /* Permette lo scroll orizzontale su mobile */
+    -webkit-overflow-scrolling: touch; /* Scroll fluido su iOS */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 400px; /* Previene il collasso eccessivo su schermi minuscoli */
+}
+
+th, td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+th {
+    background-color: rgba(0, 195, 255, 0.1);
+    color: var(--primary);
+    font-weight: bold;
+}
+
+td {
+    color: var(--text-muted);
+}
+
+/* Grid Inventario */
+.grid-container {
+    display: grid;
+    /* Adatta le colonne in base allo spazio: minimo 280px, massimo 1 frazione */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: rgba(15, 20, 35, 0.8);
+    border: 1px solid var(--card-border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 195, 255, 0.2);
+}
+
+.card h3 {
+    margin-bottom: 1rem;
+    color: #fff;
+    font-size: 1.3rem;
+}
+
+.card p {
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+}
+
+.card p strong {
+    color: #ccc;
+}
+
+.prezzo {
+    font-weight: bold;
+    font-size: 1.4rem;
+    color: var(--primary) !important;
+    margin-top: 1.2rem;
+    text-align: right;
+}
+
+/* Stato Venduto */
+.card.sold {
+    background: var(--sold-bg);
+    border-color: #444;
+    filter: grayscale(80%);
+}
+
+.card.sold h3, .card.sold .prezzo {
+    color: #888 !important;
+}
+
+.badge-sold {
+    position: absolute;
+    top: 20px;
+    right: -35px;
+    background: #ff3333;
+    color: white;
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    font-weight: bold;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+/* Footer & Bottoni */
+footer {
+    text-align: center;
+    padding: 3rem 1rem;
+    background: rgba(0, 0, 0, 0.6);
+    border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.btn-telegram {
+    display: inline-block;
+    background-color: #0088cc;
+    color: white;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: bold;
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    transition: background-color 0.2s;
+    box-shadow: 0 4px 10px rgba(0, 136, 204, 0.3);
+}
+
+.btn-telegram:hover {
+    background-color: #0099e6;
+}
+
+/* Ottimizzazioni specifiche per Mobile */
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    section {
+        padding: 1rem;
+        border-radius: 8px;
+    }
+    
+    .card {
+        padding: 1.2rem;
+    }
+    
+    /* Su mobile le card prendono tutta la larghezza */
+    .grid-container {
+        grid-template-columns: 1fr;
+    }
+}

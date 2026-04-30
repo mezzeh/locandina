@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "modello": "PS4 Fat",
+    "prezzo": "125€",
+    "versione_fw": "9.03",
+    "storage": "500gb ",
+    "disponibile": true,
+    "note": "Ottime condizioni, controller incluso."
+  },
+  {
+    "id": 2,
+    "modello": "PS4 Slim",
+    "prezzo": "130€",
+    "versione_fw": "12.00",
+    "storage": "500gb",
+    "disponibile": false,
+    "note": "Venduta il 15/04/2026"
+  }
+]
