@@ -50,3 +50,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     loadInventory();
 });
+// Gestione dello slider orizzontale
+const gallery = document.getElementById('imageGallery');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+// Definisci di quanto deve scorrere al click (es. 300px)
+const scrollAmount = 320;
+
+nextBtn.addEventListener('click', () => {
+    gallery.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+});
+
+prevBtn.addEventListener('click', () => {
+    gallery.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+});

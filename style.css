@@ -234,3 +234,73 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+#gallery-container {
+    position: relative;
+    padding: 1rem;
+}
+
+.slider-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.gallery {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory; /* Blocca l'immagine al centro */
+    padding: 10px 0;
+}
+
+/* Nasconde la scrollbar esteticamente brutta */
+.gallery::-webkit-scrollbar {
+    display: none;
+}
+
+.gallery img {
+    flex: 0 0 80%; /* Su mobile occupa l'80% della larghezza */
+    max-width: 400px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid var(--card-border);
+    scroll-snap-align: center;
+    transition: transform 0.3s;
+}
+
+/* Frecce di navigazione */
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 195, 255, 0.2);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    padding: 15px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    backdrop-filter: blur(5px);
+    transition: background 0.3s;
+}
+
+.nav-btn:hover {
+    background: var(--primary);
+    color: #000;
+}
+
+.prev { left: -10px; }
+.next { right: -10px; }
+
+/* Desktop: immagini più grandi */
+@media (min-width: 768px) {
+    .gallery img {
+        flex: 0 0 300px;
+    }
+    .prev { left: -20px; }
+    .next { right: -20px; }
+}
