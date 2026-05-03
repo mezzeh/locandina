@@ -5,7 +5,7 @@
     "prezzo": "125€",
     "versione_fw": "12.00",
     "storage": "500gb ",
-    "disponibile": true,
+    "disponibile": false,
     "note": "Ottime condizioni, controller incluso."
   },
   {
@@ -24,7 +24,7 @@
     "versione_fw": "9.03",
     "storage": "500gb ",
     "disponibile": true,
-    "note": "Ottime condizioni, controller incluso."
+    "note": "Venduta il 03/05/2026"
   },
   {
     "id": 3,
