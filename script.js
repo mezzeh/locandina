@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
         items.forEach(item => {
             const card = document.createElement('div');
             card.classList.add('card');
-            
+
             // Applica la classe 'sold' se non è disponibile
             if (!item.disponibile) {
                 card.classList.add('sold');
