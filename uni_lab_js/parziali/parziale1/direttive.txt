@@ -1,0 +1,4 @@
+### Giorno 1: Scope, Closures e Array Avanzati
+*   **Programmazione:** Differenze cruciali tra `var`, `let` e `const`. Regole di visibilità (Scope globale, di funzione, di blocco), l'hoisting e lo shadowing. Funzioni di ordine superiore (metodi di Array come `map`, `filter`, `reduce`).
+*   **Focus Orale:** Devi saper spiegare a parole cos'è una **Closure** (chiusura lessicale) e come le variabili interne sopravvivono alla fine dell'esecuzione della funzione padre. Saper leggere un blocco di codice e prevedere l'output.
+*   **Test:** **Milestone 1** (`contaParole` con gli oggetti, `filtraCorso`, `dronePiuVicino`).
