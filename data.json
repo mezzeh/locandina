@@ -15,7 +15,7 @@
     "versione_fw": "9.00",
     "storage": "500gb ",
     "disponibile": false,
-    "note": "Ottime condizioni, controller incluso."
+    "note": "venduta il 17/05."
   },
   {
     "id": 2,
@@ -23,8 +23,8 @@
     "prezzo": "110",
     "versione_fw": "9.03",
     "storage": "500gb ",
-    "disponibile": true,
-    "note": "Ottime condizioni, controller incluso, perfetta per chi vuole installare degli emulatori."
+    "disponibile": false,
+    "note": "venduta 20/05"
   },
   {
     "id": 3,
@@ -34,5 +34,14 @@
     "storage": "500gb",
     "disponibile": false,
     "note": "Venduta il 15/04/2026"
-  }
+  },
+{
+  "id": 4,
+  "modello": "COMING SOON",
+  "prezzo": "110€",
+  "versione_fw": "12.52",
+  "storage": "500gb",
+  "disponibile": false,
+  "note": "MODIFICANDO.."
+}
 ]
