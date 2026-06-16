@@ -2,46 +2,10 @@
   {
       "id": 0,
     "modello": "PS4 Fat",
-    "prezzo": "125€",
-    "versione_fw": "12.00",
+    "prezzo": "105",
+    "versione_fw": "11.00",
     "storage": "500gb ",
-    "disponibile": false,
-    "note": "Venduta il 03/05/2026."
-  },
-  {
-      "id": 1,
-    "modello": "PS4 Fat",
-    "prezzo": "125€",
-    "versione_fw": "9.00",
-    "storage": "500gb ",
-    "disponibile": false,
-    "note": "venduta il 17/05."
-  },
-  {
-    "id": 2,
-    "modello": "PS4 Fat",
-    "prezzo": "110",
-    "versione_fw": "9.03",
-    "storage": "500gb ",
-    "disponibile": false,
-    "note": "venduta 20/05"
-  },
-  {
-    "id": 3,
-    "modello": "PS4 Slim",
-    "prezzo": "130€",
-    "versione_fw": "12.00",
-    "storage": "500gb",
-    "disponibile": false,
-    "note": "Venduta il 15/04/2026"
-  },
-{
-  "id": 4,
-  "modello": "COMING SOON",
-  "prezzo": "110€",
-  "versione_fw": "12.52",
-  "storage": "500gb",
-  "disponibile": false,
-  "note": "MODIFICANDO.."
-}
+    "disponibile": true,
+    "note": "In arrivo, lettore dischi non funzionante, si applica sconto. "
+  }
 ]
